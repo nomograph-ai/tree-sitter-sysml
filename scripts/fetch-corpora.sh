@@ -18,15 +18,15 @@ Commands:
   help                Show this help
 
 Corpora:
+  training    OMG SysML v2 training files (GitHub)
+  examples    OMG SysML v2 example files (GitHub)
   gfse        GfSE/SysML-v2-Models (GitHub)
   advent      sensmetry/advent-of-sysml-v2 (GitHub)
   validation  OMG SysML v2 validation files (GitHub)
   library     OMG SysML v2 standard library (GitHub)
   sysmod      MBSE4U/sysmod-sysmlv2 (GitHub)
   smarthome   sensmetry/smart-home-hub-example (GitHub)
-  all         All external corpora
-
-Note: 'training' and 'examples' are local fixtures, not fetched.
+  all         All corpora
 
 Examples:
   $(basename "$0")              # Fetch all
@@ -131,6 +131,40 @@ fetch_smarthome() {
   echo "smarthome: Fetched $count .sysml files"
 }
 
+fetch_training() {
+  local target="$CORPORA_DIR/training"
+  if [[ -d "$target" ]]; then
+    echo "training: Already exists, skipping (use 'clean training' first to re-fetch)"
+    return 0
+  fi
+
+  echo "training: Cloning SysML-v2-Release (sparse: sysml/src/training)..."
+  mkdir -p "$CORPORA_DIR"
+  git clone --no-checkout --depth 1 --filter=blob:none --quiet \
+    https://github.com/Systems-Modeling/SysML-v2-Release.git "$target"
+  (cd "$target" && git sparse-checkout set sysml/src/training && git checkout --quiet)
+  local count
+  count=$(find "$target" -name "*.sysml" | wc -l | tr -d ' ')
+  echo "training: Fetched $count .sysml files"
+}
+
+fetch_examples() {
+  local target="$CORPORA_DIR/examples"
+  if [[ -d "$target" ]]; then
+    echo "examples: Already exists, skipping (use 'clean examples' first to re-fetch)"
+    return 0
+  fi
+
+  echo "examples: Cloning SysML-v2-Release (sparse: sysml/src/examples)..."
+  mkdir -p "$CORPORA_DIR"
+  git clone --no-checkout --depth 1 --filter=blob:none --quiet \
+    https://github.com/Systems-Modeling/SysML-v2-Release.git "$target"
+  (cd "$target" && git sparse-checkout set sysml/src/examples && git checkout --quiet)
+  local count
+  count=$(find "$target" -name "*.sysml" | wc -l | tr -d ' ')
+  echo "examples: Fetched $count .sysml files"
+}
+
 clean_corpus() {
   local corpus="$1"
   local target="$CORPORA_DIR/$corpus"
@@ -157,28 +191,23 @@ clean_all() {
 show_status() {
   echo "=== Corpus Status ==="
   echo ""
-  echo "Local (fixtures):"
-  local fixtures_dir="$PROJECT_ROOT/../open-mcp-sysml/tests/fixtures/sysml-v2/sysml/src"
-  
-  if [[ -d "$fixtures_dir/training" ]]; then
+
+  if [[ -d "$CORPORA_DIR/training" ]]; then
     local count
-    count=$(find "$fixtures_dir/training" -name "*.sysml" 2>/dev/null | wc -l | tr -d ' ')
+    count=$(find "$CORPORA_DIR/training" -name "*.sysml" 2>/dev/null | wc -l | tr -d ' ')
     echo "  training: $count files"
   else
-    echo "  training: NOT FOUND"
+    echo "  training: not fetched (run: ./scripts/fetch-corpora.sh training)"
   fi
-  
-  if [[ -d "$fixtures_dir/examples" ]]; then
+
+  if [[ -d "$CORPORA_DIR/examples" ]]; then
     local count
-    count=$(find "$fixtures_dir/examples" -name "*.sysml" 2>/dev/null | wc -l | tr -d ' ')
+    count=$(find "$CORPORA_DIR/examples" -name "*.sysml" 2>/dev/null | wc -l | tr -d ' ')
     echo "  examples: $count files"
   else
-    echo "  examples: NOT FOUND"
+    echo "  examples: not fetched (run: ./scripts/fetch-corpora.sh examples)"
   fi
-  
-  echo ""
-  echo "External (fetched):"
-  
+
   if [[ -d "$CORPORA_DIR/gfse" ]]; then
     local count
     count=$(find "$CORPORA_DIR/gfse" -name "*.sysml" 2>/dev/null | wc -l | tr -d ' ')
@@ -241,7 +270,7 @@ main() {
       --help|-h)
         usage
         ;;
-      gfse|advent|validation|library|sysmod|smarthome|all)
+      training|examples|gfse|advent|validation|library|sysmod|smarthome|all)
         corpora+=("$1")
         shift
         ;;
@@ -271,6 +300,8 @@ main() {
       ;;
     fetch)
       if [[ ${#corpora[@]} -eq 0 ]] || [[ " ${corpora[*]} " =~ " all " ]]; then
+        fetch_training
+        fetch_examples
         fetch_gfse
         fetch_advent
         fetch_validation
@@ -280,6 +311,8 @@ main() {
       else
         for c in "${corpora[@]}"; do
           case "$c" in
+            training) fetch_training ;;
+            examples) fetch_examples ;;
             gfse) fetch_gfse ;;
             advent) fetch_advent ;;
             validation) fetch_validation ;;

@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 
+- SmartHome corpus (3 files) to external coverage suite
+- `fetch-corpora.sh` now fetches Training and Examples corpora from GitHub (no longer requires local fixtures)
 - 192 corpus tests (up from 125), covering all major SysML v2 construct types
 - Comprehensive test coverage for definitions: use_case, interface, allocation, analysis, case, verification, occurrence, individual, item, connection (with end redefinitions)
 - Comprehensive test coverage for usages: use_case, interface, allocation, analysis, case, verification, occurrence, individual, enumeration, event_occurrence, event, timeslice, reference, concern, variant, objective
@@ -28,6 +30,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 
+- External coverage: 387/393 (98.4%) across 8 corpora including SmartHome (tested 2026-03-10)
+- `test-corpus.sh` now uses fetched corpora paths instead of local fixtures; uses `tree-sitter` directly instead of `npx tree-sitter`
+- `test-corpus.sh` prints grand total summary when running `all` corpora
+
+### Fixed
+
+- `test-corpus.sh` broken pipe in `test_file()` was masking parse failures on large files (switched `echo | grep` to herestring)
 - CI workflow aligned with tree-sitter-python conventions (action versions, step ordering, macos-latest)
 - `Cargo.toml` categories updated to include `parser-implementations`
 - `pyproject.toml` updated: `setuptools>=62.4.0`, `requires-python>=3.10`, `tree-sitter~=0.24`, `cp310`
