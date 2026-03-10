@@ -36,6 +36,15 @@ EOF
   exit 0
 }
 
+pct() {
+  local n="$1" d="$2"
+  if [[ "$d" -eq 0 ]]; then echo "0.0"; return; fi
+  local x=$(( n * 1000 / d ))
+  local whole=$(( x / 10 ))
+  local frac=$(( x % 10 ))
+  echo "${whole}.${frac}"
+}
+
 find_sysml_files() {
   local dir="$1"
   find "$dir" -name "*.sysml" -type f 2>/dev/null | sort
@@ -45,7 +54,7 @@ test_file() {
   local file="$1"
   local output
   output=$(tree-sitter parse "$file" 2>&1)
-  if grep -qi error <<< "$output"; then
+  if grep -q '(ERROR' <<< "$output"; then
     printf '%s\n' "$output" > "$LAST_ERROR_FILE"
     return 1
   fi
@@ -164,14 +173,14 @@ run_corpus_test() {
   "total": $total,
   "passed": $pass,
   "failed": $((total - pass)),
-  "pass_rate": $(echo "scale=2; $pass * 100 / $total" | bc),
+  "pass_rate": $(pct "$pass" "$total"),
   "failures": $fail_json
 }
 EOF
   else
     echo ""
     echo "=== $corpus Coverage ==="
-    echo "Passed: $pass/$total ($(echo "scale=1; $pass * 100 / $total" | bc)%)"
+    echo "Passed: $pass/$total ($(pct "$pass" "$total")%)"
     
     if [[ ${#fail_files[@]} -gt 0 ]]; then
       echo ""
@@ -270,7 +279,7 @@ main() {
       echo "]"
     elif [[ "$grand_total" -gt 0 ]]; then
       local grand_pct
-      grand_pct=$(echo "scale=1; $grand_pass * 100 / $grand_total" | bc)
+      grand_pct=$(pct "$grand_pass" "$grand_total")
       echo "=== Total Coverage ==="
       echo "Parse coverage: ${grand_pct}%"
       echo "Passed: $grand_pass/$grand_total"
