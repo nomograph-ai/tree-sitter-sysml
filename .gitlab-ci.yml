@@ -50,39 +50,15 @@ parse-coverage:
   stage: coverage
   before_script:
     - npm ci
-    - git clone https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation sysml-v2 --single-branch --depth=1 --filter=blob:none
+    - npm install -g tree-sitter-cli
+    - npx tree-sitter generate
+    - bash scripts/fetch-corpora.sh
   script:
-    - |
-      set -e
-      find sysml-v2/sysml/src/training -name "*.sysml" -type f > /tmp/files.txt
-      total=$(wc -l < /tmp/files.txt)
-      passed=0
-      touch failed-files.txt
-      
-      while IFS= read -r f; do
-        if npx tree-sitter parse "$f" --quiet 2>&1 | grep -q "ERROR"; then
-          echo "$f" >> failed-files.txt
-        else
-          passed=$((passed + 1))
-        fi
-      done < /tmp/files.txt
-      
-      failed=$((total - passed))
-      pct=$((passed * 100 / total))
-      echo "Parse coverage: ${pct}%"
-      echo "Passed: $passed / $total training files"
-      echo "Failed: $failed"
-      
-      printf '{"total": %d, "passed": %d, "failed": %d, "percentage": %d}' "$total" "$passed" "$failed" "$pct" > coverage.json
-      
-      echo ""
-      echo "=== Failed files (first 20) ==="
-      head -20 failed-files.txt || echo "None"
-  coverage: '/Parse coverage: (\d+)%/'
+    - bash scripts/test-corpus.sh all --errors-only 2>&1 | tee corpus-results.txt
+  coverage: '/Parse coverage: (\d+\.?\d*)%/'
   artifacts:
     paths:
-      - coverage.json
-      - failed-files.txt
+      - corpus-results.txt
     expire_in: 30 days
     when: always
   rules:

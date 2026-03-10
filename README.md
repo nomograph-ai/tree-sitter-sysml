@@ -16,17 +16,17 @@ This tree-sitter grammar provides a **standalone, incremental parser** with no I
 
 ## Status
 
-**99.5% parse coverage** across 390 real-world SysML v2 files from 7 independent sources.
+**98.4% parse coverage** across 393 real-world SysML v2 files from 8 independent sources (tested 2026-03-10).
 
 | Metric | Value |
 |--------|-------|
 | Corpus Tests | 192 passing |
 | Negative Tests | 18 (12 syntactic, 6 structural) |
-| External File Coverage | 388/390 (99.5%) |
+| External File Coverage | 387/393 (98.4%) |
 | Bindings | C, Rust, Go, Python, Node.js, Swift |
 | Queries | highlights, tags, locals, folds, indents |
 
-The 2 unparseable files are documented in [parse-coverage.md](docs/parse-coverage.md) — one uses non-standard UML syntax, the other uses an implicit brace-less action body pattern from the standard library internals.
+6 files have parse errors — 2 are intentionally unsupported (UML syntax, implicit action bodies), and 4 are regressions from the OMG 2026-02 release. See [parse-coverage.md](docs/parse-coverage.md) for details.
 
 ## How the Corpus Was Assembled
 
@@ -41,9 +41,10 @@ Most tree-sitter grammars have the luxury of millions of open-source files to te
 | [Sensmetry Advent](https://github.com/sensmetry/advent-of-sysml-v2) | 44 | Community examples from "Advent of SysML v2" |
 | [GfSE Models](https://github.com/GfSE/SysML-v2-Models) | 36 | German systems engineering society models |
 | [SYSMOD](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 1 | SYSMOD methodology example |
-| **Total** | **390** | |
+| [Sensmetry SmartHome](https://github.com/sensmetry/smart-home-hub-example) | 3 | Smart home hub example |
+| **Total** | **393** | |
 
-The training files were the development target — every grammar change was validated against all 100 training files. The remaining corpora serve as independent validation: the grammar was never specifically tuned to pass them, so their 99.5% pass rate reflects genuine generalization.
+The training files were the development target — every grammar change was validated against all 100 training files. The remaining corpora serve as independent validation: the grammar was never specifically tuned to pass them, so their pass rate reflects genuine generalization.
 
 **We need more corpus.** If you have SysML v2 files (from coursework, research, industry projects, or personal experiments), we would love to test against them. Even files that break the parser are valuable — especially those. See [Contributing](#contributing).
 
@@ -357,7 +358,7 @@ If it produces an ERROR node, please open an issue with the file (or a minimal r
 - Malformed expressions
 - Edge cases around keyword-as-identifier ambiguity
 
-**Grammar approach feedback.** If you've built tree-sitter grammars for large languages and see a better way to structure ours, we want to hear it. The brute-force empirical approach got us to 99.5%, but there may be architectural improvements that would make the grammar more maintainable or more precise.
+**Grammar approach feedback.** If you've built tree-sitter grammars for large languages and see a better way to structure ours, we want to hear it. The brute-force empirical approach got us to 98%, but there may be architectural improvements that would make the grammar more maintainable or more precise.
 
 **Query improvements.** The highlight, tag, and local queries cover all node types, but the fold and indent queries are minimal. Contributions to improve editor integration are welcome.
 
@@ -374,7 +375,7 @@ If it produces an ERROR node, please open an issue with the file (or a minimal r
 ## Known Limitations
 
 - **Over-acceptance**: Any member type parses in any body context (see [Grammar Approach](#grammar-approach))
-- **2 unparseable files**: One non-standard UML, one implicit action body (see [parse-coverage.md](docs/parse-coverage.md))
+- **6 unparseable files**: 2 intentionally unsupported, 4 regressions from OMG 2026-02 release (see [parse-coverage.md](docs/parse-coverage.md))
 - **No semantic validation**: The parser checks syntax, not type correctness or constraint satisfaction
 - **Expression precedence**: Approximated with left-association, may differ from spec in edge cases
 - **Keyword-as-identifier**: Most cases handled, but some ambiguity remains (see [parse-coverage.md](docs/parse-coverage.md))

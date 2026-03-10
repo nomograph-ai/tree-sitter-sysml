@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 CORPORA_DIR="$PROJECT_ROOT/.test-corpora"
-FIXTURES_DIR="$PROJECT_ROOT/../open-mcp-sysml/tests/fixtures/sysml-v2/sysml/src"
+# Training and examples are now fetched via fetch-corpora.sh (no longer local fixtures)
 
 usage() {
   cat <<EOF
@@ -13,8 +13,8 @@ Usage: $(basename "$0") <corpus> [--json] [--errors-only]
 Test a corpus against tree-sitter-sysml parser.
 
 Corpora:
-  training    OMG Training files (local fixtures)
-  examples    OMG Examples files (local fixtures)
+  training    OMG Training files (requires fetch-corpora.sh)
+  examples    OMG Examples files (requires fetch-corpora.sh)
   gfse        GfSE/SysML-v2-Models (requires fetch-corpora.sh)
   advent      sensmetry/advent-of-sysml-v2 (requires fetch-corpora.sh)
   validation  OMG SysML v2 validation files (requires fetch-corpora.sh)
@@ -44,9 +44,9 @@ find_sysml_files() {
 test_file() {
   local file="$1"
   local output
-  output=$(npx tree-sitter parse "$file" 2>&1)
-  if echo "$output" | grep -qi error; then
-    echo "$output" > "$LAST_ERROR_FILE"
+  output=$(tree-sitter parse "$file" 2>&1)
+  if grep -qi error <<< "$output"; then
+    printf '%s\n' "$output" > "$LAST_ERROR_FILE"
     return 1
   fi
   return 0
@@ -65,10 +65,10 @@ get_corpus_path() {
   local corpus="$1"
   case "$corpus" in
     training)
-      echo "$FIXTURES_DIR/training"
+      echo "$CORPORA_DIR/training/sysml/src/training"
       ;;
     examples)
-      echo "$FIXTURES_DIR/examples"
+      echo "$CORPORA_DIR/examples/sysml/src/examples"
       ;;
     gfse)
       echo "$CORPORA_DIR/gfse/models"
@@ -105,16 +105,8 @@ check_corpus_exists() {
   fi
   
   if [[ ! -d "$path" ]]; then
-    case "$corpus" in
-      training|examples)
-        echo "Corpus '$corpus' not found at $path" >&2
-        echo "Check that fixtures exist at expected location" >&2
-        ;;
-      gfse|advent|validation|library|sysmod|smarthome)
-        echo "Corpus '$corpus' not found at $path" >&2
-        echo "Run: ./scripts/fetch-corpora.sh $corpus" >&2
-        ;;
-    esac
+    echo "Corpus '$corpus' not found at $path" >&2
+    echo "Run: ./scripts/fetch-corpora.sh $corpus" >&2
     return 1
   fi
   return 0
@@ -235,14 +227,29 @@ main() {
   if [[ "$corpus" == "all" ]]; then
     local all_corpora=(training examples gfse advent validation library sysmod smarthome)
     local results=()
+    local grand_total=0
+    local grand_pass=0
     
     for c in "${all_corpora[@]}"; do
       if check_corpus_exists "$c" 2>/dev/null; then
         if [[ "$json_output" == "true" ]]; then
           results+=("$(run_corpus_test "$c" "$json_output" "$errors_only")")
         else
-          run_corpus_test "$c" "$json_output" "$errors_only"
+          # Capture output to parse totals while still printing it
+          local output
+          output=$(run_corpus_test "$c" "$json_output" "$errors_only")
+          echo "$output"
           echo ""
+          # Extract passed/total from "Passed: N/M" line
+          local line
+          line=$(echo "$output" | grep -oE 'Passed: [0-9]+/[0-9]+' || true)
+          if [[ -n "$line" ]]; then
+            local p t
+            p=$(echo "$line" | grep -oE '[0-9]+' | head -1)
+            t=$(echo "$line" | grep -oE '[0-9]+' | tail -1)
+            grand_pass=$((grand_pass + p))
+            grand_total=$((grand_total + t))
+          fi
         fi
       else
         if [[ "$json_output" == "false" ]]; then
@@ -261,6 +268,12 @@ main() {
         first=false
       done
       echo "]"
+    elif [[ "$grand_total" -gt 0 ]]; then
+      local grand_pct
+      grand_pct=$(echo "scale=1; $grand_pass * 100 / $grand_total" | bc)
+      echo "=== Total Coverage ==="
+      echo "Parse coverage: ${grand_pct}%"
+      echo "Passed: $grand_pass/$grand_total"
     fi
   else
     run_corpus_test "$corpus" "$json_output" "$errors_only"

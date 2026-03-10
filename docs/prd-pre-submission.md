@@ -11,7 +11,7 @@ organization.
 | Metric | Value |
 |--------|-------|
 | Corpus Tests | 192/192 passing |
-| External Coverage | 391/393 (99.5%) |
+| External Coverage | 387/393 (98.4%) |
 | ESLint | Clean |
 | Scaffolding | Complete (all bindings, CI, examples) |
 

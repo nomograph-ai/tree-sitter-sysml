@@ -1,10 +1,10 @@
 # Parse Coverage Report
 
-Last updated: 2026-03-06
+Last updated: 2026-03-10
 
 ## Summary
 
-**388 / 390 files parse without errors (99.5%)**
+**387 / 393 files parse without errors (98.4%)**
 
 This grammar was developed empirically against real SysML v2 files from multiple
 sources. It uses an over-accepting strategy: the grammar accepts all valid SysML v2
@@ -16,15 +16,51 @@ trade-off is documented in the [limitations](#known-limitations) section.
 | Corpus | Source | Files | Pass Rate |
 |--------|--------|-------|-----------|
 | Training | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/training/` | 100 | 100% |
-| Examples | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/examples/` | 95 | 100% |
+| Examples | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/examples/` | 95 | 98.9% (94/95) |
 | GfSE | [GfSE/SysML-v2-Models](https://github.com/GfSE/SysML-v2-Models) | 36 | 97.2% (35/36) |
 | Advent | [sensmetry/advent-of-sysml-v2](https://github.com/sensmetry/advent-of-sysml-v2) | 44 | 100% |
 | Validation | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/validation/` | 56 | 100% |
-| Library | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml.library/` | 58 | 98.3% (57/58) |
+| Library | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml.library/` | 58 | 93.1% (54/58) |
 | SYSMOD | [MBSE4U/sysmod-sysmlv2](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 1 | 100% |
-| **Total** | | **390** | **99.5%** |
+| SmartHome | [sensmetry/smart-home-hub-example](https://github.com/sensmetry/smart-home-hub-example) | 3 | 100% |
+| **Total** | | **393** | **98.4% (387/393)** |
+
+> **Note:** These results reflect upstream corpora fetched on 2026-03-10. Pass rates
+> may change as upstream repositories are updated. The CI coverage job re-runs this
+> suite on every push to `main` and updates the coverage badge automatically.
 
 ## Unparseable Files
+
+### Regressions (4 files)
+
+These files fail due to grammar gaps exposed by the OMG 2026-02 release or
+constructs not previously encountered in the corpus.
+
+| File | Corpus | Error | Root Cause |
+|------|--------|-------|------------|
+| `Simple Tests/ConnectionTest.sysml` | Examples | `ERROR [22, 2]` | Named binding syntax (`binding ab bind a = b;`) |
+| `Geometry/ShapeItems.sysml` | Library | `ERROR [431, 10]` | Multiplicity on binding keyword (`binding [1] bind [0..*] ...`) |
+| `Quantities and Units/ISQSpaceTime.sysml` | Library | `ERROR [323, 59]` | Index expression followed by unit bracket (`num#(1) [mRef...]`) |
+| `Systems Library/SysML.sysml` | Library | `ERROR [13, 3]` | Chained specialization with `subsets` after multiplicity in metadata defs |
+
+**ConnectionTest.sysml** — Added in the OMG 2026-02 release. The anonymous
+`bind a = b;` form parses correctly, but the named form `binding ab bind a = b;`
+uses the `binding` keyword as a named usage declaration.
+
+**ShapeItems.sysml** — Uses `binding [1] bind [0..*] base.edges = [0..*] be;`
+which places multiplicity constraints on the binding itself. The grammar's
+`bind_statement` does not accept multiplicity on the `binding` keyword.
+
+**ISQSpaceTime.sysml** — Uses `num#(1) [mRef.mRefs#(1)]` where an index
+expression is followed by a bracket expression. The parser cannot distinguish
+this from multiplicity syntax.
+
+**SysML.sysml** — Contains metadata definitions with complex member chains like
+`derived ref item receiverArgument : Expression[0..1] subsets Metadata::metadataItems;`
+where `subsets` follows a multiplicity constraint. The grammar does not handle
+this chained specialization pattern in metadata definition bodies.
+
+### Intentionally Unsupported (2 files)
 
 ### 1. `EIT_System_Use_Cases.sysml` (GfSE)
 
