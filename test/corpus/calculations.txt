@@ -1,0 +1,270 @@
+================================================================================
+Calc definition with return
+================================================================================
+
+calc def Power {
+    in whlpwr : PowerValue;
+    return : PowerValue = whlpwr * 2;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (calc_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (return_statement
+        (usage_declaration
+          (typing_part
+            (qualified_name
+              (name
+                (identifier))))
+          (value_part
+            (binary_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (literal
+                (integer_literal)))))
+        (usage_body)))))
+
+================================================================================
+Calc usage with bindings
+================================================================================
+
+calc acc : Acceleration {
+    in tp = Power(wheelPower);
+    in tm = mass;
+    return a;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (calc_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (function_call_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))))
+        (usage_body))
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (return_statement
+        (qualified_name
+          (name
+            (identifier)))))))
+
+================================================================================
+Calc definition with internal attributes
+================================================================================
+
+calc def Power {
+    in Cd : Real;
+    in v : SpeedValue;
+    attribute drag = Cd * v;
+    return : PowerValue = whlpwr - drag;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (calc_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (binary_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))))
+        (usage_body))
+      (return_statement
+        (usage_declaration
+          (typing_part
+            (qualified_name
+              (name
+                (identifier))))
+          (value_part
+            (binary_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))))
+        (usage_body)))))
+
+================================================================================
+Abstract calc definition
+================================================================================
+
+abstract calc def ComputeValue;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (calc_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body)))
+
+================================================================================
+Calc usage inline
+================================================================================
+
+part vehicle {
+    calc totalMass : MassCalc {
+        in partMasses = parts;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (calc_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body
+          (parameter_usage
+            (port_direction)
+            (usage_declaration
+              (identification
+                (name
+                  (identifier)))
+              (value_part
+                (qualified_name
+                  (name
+                    (identifier)))))
+            (usage_body)))))))
+
+================================================================================
+In calc parameter
+================================================================================
+
+in calc eval : T { }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (parameter_usage
+    (port_direction)
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Return ref result with multiplicity
+================================================================================
+
+calc def C {
+    return ref result[0..*] { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (calc_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (return_statement
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (multiplicity
+            (multiplicity_bound
+              (integer_literal))))
+        (usage_body)))))

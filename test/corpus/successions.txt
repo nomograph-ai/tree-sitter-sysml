@@ -1,0 +1,29 @@
+================================================================================
+Succession with typing
+================================================================================
+
+action foo {
+    succession : HappensJustBefore first step1 then step2;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (action_body
+      (succession_statement
+        (typing_part
+          (qualified_name
+            (name
+              (identifier))))
+        (feature_chain
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))
+        (usage_body)))))

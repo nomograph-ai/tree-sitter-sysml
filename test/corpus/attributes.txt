@@ -1,0 +1,46 @@
+
+================================================================================
+Shorthand attribute at package level
+================================================================================
+
+package Values {
+    T1 = 10.0 [N * m];
+    T2 = 20.0 [N * m];
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (shorthand_attribute
+        (name
+          (identifier))
+        (value_part
+          (measurement_expression
+            (literal
+              (real_literal))
+            (unit_binary
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier)))))))
+      (shorthand_attribute
+        (name
+          (identifier))
+        (value_part
+          (measurement_expression
+            (literal
+              (real_literal))
+            (unit_binary
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))))))))

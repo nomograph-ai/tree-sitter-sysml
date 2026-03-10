@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tree-sitter-sysml Playground</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      font-family: system-ui, -apple-system, sans-serif; 
+      max-width: 1400px; 
+      margin: 0 auto; 
+      padding: 2rem;
+      background: #fafafa;
+    }
+    h1 { color: #333; }
+    .container { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+    .panel { background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    textarea { 
+      width: 100%; 
+      height: 400px; 
+      font-family: 'SF Mono', Monaco, monospace; 
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.5rem;
+      resize: vertical;
+    }
+    pre { 
+      background: #1e1e1e; 
+      color: #d4d4d4;
+      padding: 1rem; 
+      overflow: auto; 
+      border-radius: 4px;
+      font-size: 13px;
+      height: 400px;
+      margin: 0;
+    }
+    button {
+      background: #6b46c1;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 1rem 0;
+    }
+    button:hover { background: #553c9a; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .status { font-size: 12px; color: #666; margin-left: 1rem; }
+    .status.error { color: #c53030; }
+    .status.ready { color: #2f855a; }
+    a { color: #6b46c1; }
+  </style>
+</head>
+<body>
+  <h1>tree-sitter-sysml Playground</h1>
+  <p>Parse SysML v2 code using the <a href="https://gitlab.com/nomograph/tree-sitter-sysml">tree-sitter-sysml</a> grammar.</p>
+  
+  <div class="container">
+    <div class="panel">
+      <h3>SysML v2 Input</h3>
+      <textarea id="input">package Vehicle {
+    part def Engine {
+        attribute horsePower : Real;
+        attribute displacement : Real;
+    }
+    
+    part def Transmission {
+        attribute gears : Integer;
+    }
+    
+    part engine : Engine {
+        attribute horsePower = 250;
+    }
+    
+    part transmission : Transmission;
+}</textarea>
+    </div>
+    <div class="panel">
+      <h3>Parse Tree</h3>
+      <pre id="output">Loading parser...</pre>
+    </div>
+  </div>
+  
+  <button id="parseBtn" onclick="parse()" disabled>Parse</button>
+  <span class="status" id="status">Initializing...</span>
+  
+  <script src="https://unpkg.com/web-tree-sitter@0.24.3/tree-sitter.js"></script>
+  <script>
+    let parser = null;
+    
+    async function init() {
+      const status = document.getElementById('status');
+      const btn = document.getElementById('parseBtn');
+      const output = document.getElementById('output');
+      
+      try {
+        status.textContent = 'Loading tree-sitter...';
+        await TreeSitter.init();
+        
+        status.textContent = 'Creating parser...';
+        parser = new TreeSitter();
+        
+        status.textContent = 'Loading SysML grammar...';
+        const wasmPath = './tree-sitter-sysml.wasm';
+        const SysML = await TreeSitter.Language.load(wasmPath);
+        
+        parser.setLanguage(SysML);
+        
+        status.textContent = 'Ready!';
+        status.className = 'status ready';
+        btn.disabled = false;
+        output.textContent = 'Click "Parse" to see the AST';
+      } catch (err) {
+        console.error('Init error:', err);
+        status.textContent = 'Error: ' + err.message;
+        status.className = 'status error';
+        output.textContent = 'Failed to initialize parser:\n\n' + err.message + '\n\nCheck browser console for details.';
+      }
+    }
+    
+    function parse() {
+      if (!parser) {
+        document.getElementById('output').textContent = 'Parser not ready yet...';
+        return;
+      }
+      try {
+        const input = document.getElementById('input').value;
+        const tree = parser.parse(input);
+        document.getElementById('output').textContent = formatTree(tree.rootNode, 0);
+      } catch (err) {
+        console.error('Parse error:', err);
+        document.getElementById('output').textContent = 'Parse error: ' + err.message;
+      }
+    }
+    
+    function formatTree(node, indent) {
+      let result = '  '.repeat(indent) + node.type;
+      if (node.childCount === 0 && node.text) {
+        result += ': ' + JSON.stringify(node.text);
+      }
+      result += '\n';
+      for (let i = 0; i < node.childCount; i++) {
+        result += formatTree(node.child(i), indent + 1);
+      }
+      return result;
+    }
+    
+    init();
+  </script>
+</body>
+</html>

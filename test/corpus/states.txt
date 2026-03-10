@@ -1,0 +1,292 @@
+================================================================================
+State definition with entry
+================================================================================
+
+state def VehicleStates {
+    entry; then off;
+    state off;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_definition
+    (identification
+      (name
+        (identifier)))
+    (state_body
+      (entry_statement)
+      (then_succession
+        (name
+          (identifier)))
+      (state_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier))))
+        (state_body)))))
+
+================================================================================
+Transition statement
+================================================================================
+
+state def X {
+    state off;
+    transition off_to_on
+        first off
+        accept StartSignal
+        then on;
+    state on;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_definition
+    (identification
+      (name
+        (identifier)))
+    (state_body
+      (state_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier))))
+        (state_body))
+      (transition_statement
+        (name
+          (identifier))
+        (feature_chain
+          (name
+            (identifier)))
+        (trigger_kind
+          (qualified_name
+            (name
+              (identifier))))
+        (feature_chain
+          (name
+            (identifier)))
+        (usage_body))
+      (state_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier))))
+        (state_body)))))
+
+================================================================================
+Entry action with assignment
+================================================================================
+
+state maintenance {
+    entry assign nextTime := currentTime + interval;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (state_body
+      (entry_statement
+        (feature_chain
+          (name
+            (identifier)))
+        (binary_expression
+          (qualified_name
+            (name
+              (identifier)))
+          (qualified_name
+            (name
+              (identifier))))))))
+
+================================================================================
+Do statement with action
+================================================================================
+
+state monitoring {
+    do senseTemperature;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (state_body
+      (do_statement
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Accept with when trigger
+================================================================================
+
+state normal {
+    accept when temp > maxTemp then degraded;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (state_body
+      (accept_then_statement
+        (trigger_kind
+          (binary_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (qualified_name
+              (name
+                (identifier)))))
+        (name
+          (identifier))))))
+
+================================================================================
+Accept with after trigger
+================================================================================
+
+state waiting {
+    accept after 48[h] then ready;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (state_body
+      (accept_then_statement
+        (trigger_kind
+          (measurement_expression
+            (literal
+              (integer_literal))
+            (qualified_name
+              (name
+                (identifier)))))
+        (name
+          (identifier))))))
+
+================================================================================
+State usage parallel
+================================================================================
+
+state vehicle parallel;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (state_body)))
+
+================================================================================
+Abstract state definition
+================================================================================
+
+abstract state def BaseState;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_definition
+    (identification
+      (name
+        (identifier)))
+    (state_body)))
+
+================================================================================
+Entry action with usage declaration
+================================================================================
+
+state def S {
+    entry action entryAction : Action :>> 'entry';
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_definition
+    (identification
+      (name
+        (identifier)))
+    (state_body
+      (entry_statement
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier))))
+          (relationship_part
+            (redefinition_part
+              (feature_chain
+                (name
+                  (quoted_name))))))))))
+
+================================================================================
+Transition with body
+================================================================================
+
+state def S {
+    transition first off then on { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_definition
+    (identification
+      (name
+        (identifier)))
+    (state_body
+      (transition_statement
+        (feature_chain
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Exit statement
+================================================================================
+
+state def Active {
+    exit action cleanup;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (state_definition
+    (identification
+      (name
+        (identifier)))
+    (state_body
+      (exit_statement
+        (usage_declaration
+          (identification
+            (name
+              (identifier))))))))

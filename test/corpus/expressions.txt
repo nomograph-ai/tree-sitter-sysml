@@ -1,0 +1,692 @@
+================================================================================
+Binary arithmetic expression
+================================================================================
+
+part x {
+    attribute mass = 100 + 50;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (binary_expression
+              (literal
+                (integer_literal))
+              (literal
+                (integer_literal)))))
+        (usage_body)))))
+
+================================================================================
+Measurement expression with units
+================================================================================
+
+part x {
+    attribute mass = 100[kg];
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (measurement_expression
+              (literal
+                (integer_literal))
+              (qualified_name
+                (name
+                  (identifier))))))
+        (usage_body)))))
+
+================================================================================
+Feature chain expression
+================================================================================
+
+part x {
+    attribute total = engine.mass + transmission.mass;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (binary_expression
+              (feature_chain_expression
+                (qualified_name
+                  (name
+                    (identifier)))
+                (name
+                  (identifier)))
+              (feature_chain_expression
+                (qualified_name
+                  (name
+                    (identifier)))
+                (name
+                  (identifier))))))
+        (usage_body)))))
+
+================================================================================
+Collection expression
+================================================================================
+
+part x {
+    attribute values = (1, 2, 3);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (collection_expression
+              (literal
+                (integer_literal))
+              (literal
+                (integer_literal))
+              (literal
+                (integer_literal)))))
+        (usage_body)))))
+
+================================================================================
+Function call expression
+================================================================================
+
+part x {
+    attribute total = sum(masses);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (function_call_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))))
+        (usage_body)))))
+
+================================================================================
+Comparison expression
+================================================================================
+
+constraint x {
+    mass <= 2500[kg]
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constraint_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (constraint_body
+      (binary_expression
+        (qualified_name
+          (name
+            (identifier)))
+        (measurement_expression
+          (literal
+            (integer_literal))
+          (qualified_name
+            (name
+              (identifier))))))))
+
+================================================================================
+Logical and expression
+================================================================================
+
+constraint x {
+    a > 0 and b > 0
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constraint_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (constraint_body
+      (binary_expression
+        (binary_expression
+          (binary_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (literal
+              (integer_literal)))
+          (qualified_name
+            (name
+              (identifier))))
+        (literal
+          (integer_literal))))))
+
+================================================================================
+Unary not expression
+================================================================================
+
+constraint x {
+    not isEnabled
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constraint_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (constraint_body
+      (unary_expression
+        (qualified_name
+          (name
+            (identifier)))))))
+
+================================================================================
+Invocation expression with arrow
+================================================================================
+
+part x {
+    attribute filtered = items->select(i | i > 0);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (invocation_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (name
+                (identifier))
+              (binary_expression
+                (binary_expression
+                  (qualified_name
+                    (name
+                      (identifier)))
+                  (qualified_name
+                    (name
+                      (identifier))))
+                (literal
+                  (integer_literal))))))
+        (usage_body)))))
+
+================================================================================
+Real literal
+================================================================================
+
+part x {
+    attribute pi = 3.14159;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (literal
+              (real_literal))))
+        (usage_body)))))
+
+================================================================================
+Boolean literal
+================================================================================
+
+part x {
+    attribute enabled = true;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (literal
+              (boolean_literal))))
+        (usage_body)))))
+
+================================================================================
+String literal
+================================================================================
+
+part x {
+    attribute name = "Vehicle";
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (literal
+              (string_literal))))
+        (usage_body)))))
+
+================================================================================
+Deep feature chain expression
+================================================================================
+
+part x {
+    attribute chain = a.b.c.d;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (feature_chain_expression
+              (feature_chain_expression
+                (feature_chain_expression
+                  (qualified_name
+                    (name
+                      (identifier)))
+                  (name
+                    (identifier)))
+                (name
+                  (identifier)))
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Select expression
+================================================================================
+
+part x {
+    attribute selected = items.?{x > 0};
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (select_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (binary_expression
+                (qualified_name
+                  (name
+                    (identifier)))
+                (literal
+                  (integer_literal))))))
+        (usage_body)))))
+
+================================================================================
+Index expression
+================================================================================
+
+part x {
+    attribute indexed = items#(2);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (index_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (literal
+                (integer_literal)))))
+        (usage_body)))))
+
+================================================================================
+Null literal
+================================================================================
+
+part x {
+    attribute empty = null;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (literal
+              (null_literal))))
+        (usage_body)))))
+
+================================================================================
+Real literal without leading digit
+================================================================================
+
+part x {
+    attribute efficiency = .6;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (literal
+              (real_literal))))
+        (usage_body)))))
+
+================================================================================
+Unit expression with exponent
+================================================================================
+
+part x {
+    attribute accel = 9.8 [m/s**2];
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (measurement_expression
+              (literal
+                (real_literal))
+              (unit_binary
+                (qualified_name
+                  (name
+                    (identifier)))
+                (unit_exponent
+                  (qualified_name
+                    (name
+                      (identifier)))
+                  (integer_literal))))))
+        (usage_body)))))
+
+================================================================================
+Function call with dotted callee
+================================================================================
+
+part x {
+    attribute result = obj.method(arg);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (function_call_expression
+              (feature_chain_expression
+                (qualified_name
+                  (name
+                    (identifier)))
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))))
+        (usage_body)))))
+
+================================================================================
+Istype binary expression
+================================================================================
+
+constraint c {
+    x istype Y
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constraint_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (constraint_body
+      (binary_expression
+        (qualified_name
+          (name
+            (identifier)))
+        (qualified_name
+          (name
+            (identifier)))))))
+
+================================================================================
+Parenthesized expression
+================================================================================
+
+attribute x = (1 + 2);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (value_part
+        (parenthesized_expression
+          (binary_expression
+            (literal
+              (integer_literal))
+            (literal
+              (integer_literal))))))
+    (usage_body)))
+
+================================================================================
+Range expression
+================================================================================
+
+attribute x : Integer = 1..10;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (value_part
+        (range_expression
+          (literal
+            (integer_literal))
+          (literal
+            (integer_literal)))))
+    (usage_body)))
+
+================================================================================
+Cast expression
+================================================================================
+
+attribute x = y as Integer;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (value_part
+        (cast_expression
+          (qualified_name
+            (name
+              (identifier)))
+          (qualified_name
+            (name
+              (identifier))))))
+    (usage_body)))

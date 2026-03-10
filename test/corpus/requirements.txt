@@ -1,0 +1,317 @@
+================================================================================
+Requirement definition with doc
+================================================================================
+
+requirement def MassRequirement {
+    doc /* The mass shall not exceed limit. */
+    attribute massActual : MassValue;
+    attribute massReqd : MassValue;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (documentation
+        (block_comment_body))
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Requirement definition with subject
+================================================================================
+
+requirement def VehicleReq {
+    subject vehicle : Vehicle;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (subject_statement
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))))))
+
+================================================================================
+Requirement definition with short name
+================================================================================
+
+requirement def <'1'> VehicleMassReq :> MassRequirement {
+    subject vehicle : Vehicle;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (short_name
+        (name
+          (quoted_name)))
+      (name
+        (identifier)))
+    (definition_specialization
+      (qualified_name
+        (name
+          (identifier))))
+    (requirement_body
+      (subject_statement
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))))))
+
+================================================================================
+Requirement usage with assume
+================================================================================
+
+requirement fullVehicleMass : VehicleMassReq {
+    assume constraint {
+        vehicle.fuelMass == vehicle.fuelFullMass
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (requirement_body
+      (assume_statement
+        (constraint_body
+          (binary_expression
+            (feature_chain_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (name
+                (identifier)))
+            (feature_chain_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (name
+                (identifier)))))))))
+
+================================================================================
+Satisfy statement
+================================================================================
+
+part designContext {
+    satisfy vehicleSpec by vehicle;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (satisfy_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Requirement with require constraint
+================================================================================
+
+requirement def MassLimit {
+    require constraint { massActual <= massReqd }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (require_statement
+        (constraint_body
+          (binary_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (qualified_name
+              (name
+                (identifier)))))))))
+
+================================================================================
+Verify statement
+================================================================================
+
+requirement def TestReq {
+    verify massTest;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (verify_statement
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Actor usage in requirement
+================================================================================
+
+requirement def DriverReq {
+    actor driver : Person;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (actor_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Assume with prefix metadata
+================================================================================
+
+requirement deliverPayload {
+    assume #goal constraint payloadMassLimit;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (requirement_body
+      (assume_statement
+        (prefix_metadata
+          (qualified_name
+            (name
+              (identifier))))
+        (identification
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Require with prefix metadata
+================================================================================
+
+requirement deliverPayload {
+    require #goal vehicleMassRequirement;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (requirement_body
+      (require_statement
+        (prefix_metadata
+          (qualified_name
+            (name
+              (identifier))))
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Include use case statement
+================================================================================
+
+use case def Login {
+    include use case authenticate : Authenticate;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (use_case_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (include_statement
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))

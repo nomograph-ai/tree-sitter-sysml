@@ -1,0 +1,168 @@
+================================================================================
+Empty package
+================================================================================
+
+package Pkg;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body)))
+
+================================================================================
+Package with body
+================================================================================
+
+package Vehicle {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body)))
+
+================================================================================
+Package with nested package
+================================================================================
+
+package Outer {
+    package Inner {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (package_definition
+        (identification
+          (name
+            (identifier)))
+        (package_body)))))
+
+================================================================================
+Package with import
+================================================================================
+
+package Test {
+    import ScalarValues::*;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (import_statement
+        (import_reference
+          (wildcard_import
+            (name
+              (identifier))))))))
+
+================================================================================
+Package with alias
+================================================================================
+
+package Test {
+    alias Car for Vehicle::Automobile;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (alias_statement
+        (identification
+          (name
+            (identifier)))
+        (qualified_name
+          (name
+            (identifier))
+          (name
+            (identifier)))))))
+
+================================================================================
+Library package
+================================================================================
+
+standard library package ScalarValues {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (library_package
+    (identification
+      (name
+        (identifier)))
+    (package_body)))
+
+================================================================================
+Dependency
+================================================================================
+
+dependency from client to server;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (dependency
+    (qualified_name
+      (name
+        (identifier)))
+    (qualified_name
+      (name
+        (identifier)))))
+
+================================================================================
+Comment statement
+================================================================================
+
+comment about Vehicle /* This is a vehicle definition. */
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment_statement
+    (qualified_name
+      (name
+        (identifier)))
+    (block_comment_body)))
+
+================================================================================
+Comment statement without target
+================================================================================
+
+part def Vehicle {
+    comment /* This is a comment about Vehicle. */
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (comment_statement
+        (block_comment_body)))))
