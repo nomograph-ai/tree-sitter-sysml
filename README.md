@@ -1,6 +1,7 @@
 # tree-sitter-sysml
 
 [![pipeline status](https://gitlab.com/nomograph/tree-sitter-sysml/badges/main/pipeline.svg)](https://gitlab.com/nomograph/tree-sitter-sysml/-/pipelines)
+[![parse coverage](https://img.shields.io/gitlab/pipeline-coverage/nomograph%2Ftree-sitter-sysml?branch=main&label=parse%20coverage&color=brightgreen)](https://gitlab.com/nomograph/tree-sitter-sysml/-/pipelines)
 [![npm](https://img.shields.io/npm/v/tree-sitter-sysml?logo=npm)](https://www.npmjs.com/package/tree-sitter-sysml)
 [![crates](https://img.shields.io/crates/v/tree-sitter-sysml?logo=rust)](https://crates.io/crates/tree-sitter-sysml)
 
@@ -16,17 +17,17 @@ This tree-sitter grammar provides a **standalone, incremental parser** with no I
 
 ## Status
 
-**98.4% parse coverage** across 393 real-world SysML v2 files from 8 independent sources (tested 2026-03-10).
+Parse coverage is tested on every push against 393 real-world SysML v2 files from 8 independent sources (see badge above).
 
 | Metric | Value |
 |--------|-------|
 | Corpus Tests | 192 passing |
 | Negative Tests | 18 (12 syntactic, 6 structural) |
-| External File Coverage | 387/393 (98.4%) |
+| External File Coverage | 393 files across 8 corpora |
 | Bindings | C, Rust, Go, Python, Node.js, Swift |
 | Queries | highlights, tags, locals, folds, indents |
 
-6 files have parse errors — 2 are intentionally unsupported (UML syntax, implicit action bodies), and 4 are regressions from the OMG 2026-02 release. See [parse-coverage.md](docs/parse-coverage.md) for details.
+See [parse-coverage.md](docs/parse-coverage.md) for per-corpus breakdown and details on any unparseable files.
 
 ## How the Corpus Was Assembled
 
