@@ -1,0 +1,842 @@
+================================================================================
+Part usage with type
+================================================================================
+
+part engine : Engine;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Part usage with multiplicity
+================================================================================
+
+part wheels : Wheel[4];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (multiplicity
+        (multiplicity_bound
+          (integer_literal))))
+    (usage_body)))
+
+================================================================================
+Part usage with range multiplicity
+================================================================================
+
+part passengers : Person[0..5];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (multiplicity
+        (multiplicity_bound
+          (integer_literal))
+        (multiplicity_bound
+          (integer_literal))))
+    (usage_body)))
+
+================================================================================
+Attribute usage with default value
+================================================================================
+
+attribute mass : Mass = 1000;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (value_part
+        (literal
+          (integer_literal))))
+    (usage_body)))
+
+================================================================================
+Port usage with direction
+================================================================================
+
+in port fuelIn : FuelPort;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (port_usage
+    (port_direction)
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Reference usage
+================================================================================
+
+ref part engine : Engine;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Part usage with subsets
+================================================================================
+
+part eng : Engine subsets parts;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (relationship_part
+        (subsetting_part
+          (feature_chain
+            (name
+              (identifier))))))
+    (usage_body)))
+
+================================================================================
+Part usage with multiplicity and specialization
+================================================================================
+
+part wheels : Wheel[4] :> parts;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (multiplicity
+        (multiplicity_bound
+          (integer_literal)))
+      (relationship_part
+        (specialization_part
+          (feature_chain
+            (name
+              (identifier))))))
+    (usage_body)))
+
+================================================================================
+Exhibit usage
+================================================================================
+
+exhibit vehicleStates;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (exhibit_usage
+    (feature_chain
+      (name
+        (identifier)))
+    (usage_body)))
+
+================================================================================
+Assert statement with constraint
+================================================================================
+
+part vehicle : Vehicle {
+  assert massConstraint {
+    in partMasses = chassisMass;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body
+      (assert_statement
+        (identification
+          (name
+            (identifier)))
+        (usage_body
+          (parameter_usage
+            (port_direction)
+            (usage_declaration
+              (identification
+                (name
+                  (identifier)))
+              (value_part
+                (qualified_name
+                  (name
+                    (identifier)))))
+            (usage_body)))))))
+
+================================================================================
+Deeply nested parts
+================================================================================
+
+package Deep {
+    part a {
+        part b {
+            part c {
+                attribute x : Integer = 1;
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (part_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier))))
+        (usage_body
+          (part_usage
+            (usage_declaration
+              (identification
+                (name
+                  (identifier))))
+            (usage_body
+              (part_usage
+                (usage_declaration
+                  (identification
+                    (name
+                      (identifier))))
+                (usage_body
+                  (attribute_usage
+                    (usage_declaration
+                      (identification
+                        (name
+                          (identifier)))
+                      (typing_part
+                        (qualified_name
+                          (name
+                            (identifier))))
+                      (value_part
+                        (literal
+                          (integer_literal))))
+                    (usage_body)))))))))))
+
+================================================================================
+Multiple specializations
+================================================================================
+
+part engine : Engine :> components, parts;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (relationship_part
+        (specialization_part
+          (feature_chain
+            (name
+              (identifier)))
+          (feature_chain
+            (name
+              (identifier))))))
+    (usage_body)))
+
+================================================================================
+Unbounded multiplicity
+================================================================================
+
+part items : Item[*];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (multiplicity))
+    (usage_body)))
+
+================================================================================
+Specialization with typing and multiplicity
+================================================================================
+
+item :> shapes : Box[1] {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (item_usage
+    (usage_declaration
+      (relationship_part
+        (specialization_part
+          (feature_chain
+            (name
+              (identifier)))))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (multiplicity
+        (multiplicity_bound
+          (integer_literal))))
+    (usage_body)))
+
+================================================================================
+Named redefinition with value and units
+================================================================================
+
+part p {
+    length1:>> length = 4800 [mm];
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (redefines_statement
+        (name
+          (identifier))
+        (feature_chain
+          (name
+            (identifier)))
+        (value_part
+          (measurement_expression
+            (literal
+              (integer_literal))
+            (qualified_name
+              (name
+                (identifier)))))))))
+
+================================================================================
+Id keyword used as name
+================================================================================
+
+part def Format {
+    attribute id : Real;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Snapshot with standalone redefinitions
+================================================================================
+
+snapshot t0_r:Road_1{
+    :>>Road::incline = 0;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (snapshot_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body
+      (redefines_statement
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (value_part
+          (literal
+            (integer_literal)))))))
+
+================================================================================
+Multi-target redefines
+================================================================================
+
+ref calc self: Calc :>> A::self, B::self;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (calc_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (relationship_part
+        (redefinition_part
+          (feature_chain
+            (name
+              (identifier))
+            (name
+              (identifier)))
+          (qualified_name
+            (name
+              (identifier))
+            (name
+              (identifier))))))
+    (usage_body)))
+
+================================================================================
+Exhibit with feature chain
+================================================================================
+
+exhibit vehicleStates.on { }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (exhibit_usage
+    (feature_chain
+      (name
+        (identifier))
+      (name
+        (identifier)))
+    (usage_body)))
+
+================================================================================
+Use case usage
+================================================================================
+
+use case login : Login;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (use_case_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Interface usage
+================================================================================
+
+interface link : DataInterface;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (interface_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Allocation usage with allocate
+================================================================================
+
+allocation myAlloc allocate sw to hw;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (allocation_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (allocation_part
+      (feature_chain
+        (name
+          (identifier)))
+      (feature_chain
+        (name
+          (identifier))))
+    (usage_body)))
+
+================================================================================
+Analysis usage
+================================================================================
+
+analysis study : TradeStudy;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (analysis_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Case usage
+================================================================================
+
+case nominal : NominalScenario;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (case_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Verification usage
+================================================================================
+
+verification perfTest : PerformanceTest;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (verification_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Occurrence usage
+================================================================================
+
+occurrence crash : Accident;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (occurrence_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Individual usage
+================================================================================
+
+individual vehicle1 : Vehicle1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (individual_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Enumeration usage
+================================================================================
+
+enum color : Color;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enumeration_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Event occurrence usage
+================================================================================
+
+event occurrence evtStart;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (event_occurrence_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body)))
+
+================================================================================
+Event usage
+================================================================================
+
+event evtStart;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (event_usage
+    (feature_chain
+      (name
+        (identifier)))))
+
+================================================================================
+Timeslice usage
+================================================================================
+
+part def Vehicle {
+    timeslice t0 : VehicleState;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (timeslice_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Reference usage
+================================================================================
+
+ref x : Integer;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (reference_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Concern usage
+================================================================================
+
+concern safety : SafetyConcern;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (concern_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (requirement_body)))
+
+================================================================================
+Variant usage
+================================================================================
+
+part def Vehicle {
+    variant part color : Color;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (variant_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))))))
+
+================================================================================
+Objective usage
+================================================================================
+
+requirement def SafetyReq {
+    objective obj {
+        require constraint safe;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (objective_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier))))
+        (usage_body
+          (require_statement
+            (feature_chain
+              (name
+                (identifier)))))))))
+

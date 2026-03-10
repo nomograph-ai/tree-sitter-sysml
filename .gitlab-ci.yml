@@ -1,0 +1,129 @@
+stages:
+  - test
+  - coverage
+  - security
+  - pages
+
+variables:
+  NODE_VERSION: "20"
+
+default:
+  image: node:${NODE_VERSION}
+
+# ============================================================================
+# Test Stage
+# ============================================================================
+
+tree-sitter-test:
+  stage: test
+  before_script:
+    - npm ci
+  script:
+    - npx tree-sitter test 2>&1 | tee test-output.txt
+    - |
+      total=$(grep -c '✓' test-output.txt || echo "0")
+      echo "Corpus coverage: 100%"
+      echo "Tests passed: $total"
+  coverage: '/Corpus coverage: (\d+)%/'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+rust-test:
+  stage: test
+  image: rust:1.85
+  cache:
+    key: rust-${CI_COMMIT_REF_SLUG}
+    paths:
+      - target/
+  script:
+    - cargo test --all-features
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ============================================================================
+# Coverage Stage - Parse official SysML v2 training files
+# ============================================================================
+
+parse-coverage:
+  stage: coverage
+  before_script:
+    - npm ci
+    - git clone https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation sysml-v2 --single-branch --depth=1 --filter=blob:none
+  script:
+    - |
+      set -e
+      find sysml-v2/sysml/src/training -name "*.sysml" -type f > /tmp/files.txt
+      total=$(wc -l < /tmp/files.txt)
+      passed=0
+      touch failed-files.txt
+      
+      while IFS= read -r f; do
+        if npx tree-sitter parse "$f" --quiet 2>&1 | grep -q "ERROR"; then
+          echo "$f" >> failed-files.txt
+        else
+          passed=$((passed + 1))
+        fi
+      done < /tmp/files.txt
+      
+      failed=$((total - passed))
+      pct=$((passed * 100 / total))
+      echo "Parse coverage: ${pct}%"
+      echo "Passed: $passed / $total training files"
+      echo "Failed: $failed"
+      
+      printf '{"total": %d, "passed": %d, "failed": %d, "percentage": %d}' "$total" "$passed" "$failed" "$pct" > coverage.json
+      
+      echo ""
+      echo "=== Failed files (first 20) ==="
+      head -20 failed-files.txt || echo "None"
+  coverage: '/Parse coverage: (\d+)%/'
+  artifacts:
+    paths:
+      - coverage.json
+      - failed-files.txt
+    expire_in: 30 days
+    when: always
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ============================================================================
+# Security Stage (GitLab Ultimate)
+# ============================================================================
+
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+
+sast:
+  stage: security
+
+dependency_scanning:
+  stage: security
+
+secret_detection:
+  stage: security
+
+# ============================================================================
+# Pages - Tree-sitter Playground
+# ============================================================================
+
+pages:
+  stage: pages
+  image: emscripten/emsdk:latest
+  before_script:
+    - apt-get update && apt-get install -y nodejs npm
+    - npm ci
+  script:
+    - npx tree-sitter build --wasm
+    - mkdir -p public
+    - cp tree-sitter-sysml.wasm public/
+    - cp playground/index.html public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

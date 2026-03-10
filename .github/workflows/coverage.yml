@@ -1,0 +1,79 @@
+name: Grammar Coverage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - grammar.js
+      - src/**
+  pull_request:
+    paths:
+      - grammar.js
+      - src/**
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    name: Parse coverage report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+
+      - name: Clone SysML v2 test files
+        run: |
+          git clone https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation sysml-v2 \
+            --single-branch --depth=1 --filter=blob:none
+
+      - name: Parse training files and generate report
+        id: parse
+        run: |
+          echo "## Grammar Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Count training files
+          total=$(find sysml-v2/sysml/src/training -name "*.sysml" | wc -l)
+          
+          # Parse all training files, capture results
+          tree-sitter parse sysml-v2/sysml/src/training/**/*.sysml \
+            --quiet --stat 2>&1 | tee parse-results.txt || true
+          
+          # Count successful parses (files without errors)
+          passed=$(tree-sitter parse sysml-v2/sysml/src/training/**/*.sysml \
+            --quiet 2>&1 | grep -c "^sysml-v2" | head -1 || echo "0")
+          
+          # Calculate percentage
+          if [ "$total" -gt 0 ]; then
+            pct=$((passed * 100 / total))
+          else
+            pct=0
+          fi
+          
+          echo "### Training Files" >> $GITHUB_STEP_SUMMARY
+          echo "- Total: $total" >> $GITHUB_STEP_SUMMARY
+          echo "- Passed: $passed" >> $GITHUB_STEP_SUMMARY  
+          echo "- Coverage: $pct%" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Parse examples too
+          examples_total=$(find sysml-v2/sysml/src/examples -name "*.sysml" | wc -l)
+          
+          echo "### Example Files" >> $GITHUB_STEP_SUMMARY
+          echo "- Total: $examples_total" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # List modules with errors
+          echo "### Modules with Parse Errors" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tree-sitter parse sysml-v2/sysml/src/training/**/*.sysml --quiet 2>&1 \
+            | grep -E "^\s+\(" | head -20 >> $GITHUB_STEP_SUMMARY || echo "None" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload parse results
+        uses: actions/upload-artifact@v4
+        with:
+          name: parse-results
+          path: parse-results.txt

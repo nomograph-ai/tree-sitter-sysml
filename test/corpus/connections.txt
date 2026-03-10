@@ -1,0 +1,317 @@
+================================================================================
+Connection definition
+================================================================================
+
+connection def FuelLine {
+    end [1] part supplier : FuelPort;
+    end [1] part consumer : FuelPort;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (connection_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (end_usage
+        (multiplicity
+          (multiplicity_bound
+            (integer_literal)))
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (end_usage
+        (multiplicity
+          (multiplicity_bound
+            (integer_literal)))
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Connect statement
+================================================================================
+
+part x {
+    connect a to b;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (connect_statement
+        (connect_endpoint
+          (feature_chain
+            (name
+              (identifier))))
+        (connect_endpoint
+          (feature_chain
+            (name
+              (identifier))))
+        (usage_body)))))
+
+================================================================================
+Bind statement
+================================================================================
+
+part x {
+    bind a.b = c.d;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (bind_statement
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))))))
+
+================================================================================
+End usage with occurrence keyword
+================================================================================
+
+connection def Causation {
+  end theCauses [*] occurrence theCause :> causes :>> source {
+    doc /* The single causing occurrence. */
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (connection_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (end_usage
+        (identification
+          (name
+            (identifier)))
+        (multiplicity)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (relationship_part
+            (specialization_part
+              (feature_chain
+                (name
+                  (identifier)))))
+          (relationship_part
+            (redefinition_part
+              (feature_chain
+                (name
+                  (identifier))))))
+        (usage_body
+          (documentation
+            (block_comment_body)))))))
+
+================================================================================
+Connection with n-ary connect part
+================================================================================
+
+#multicausation connection : MultiCauseEffect connect
+    ( cause1 ::> causer1, cause2 ::> causer2 );
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (connection_usage
+    (prefix_metadata
+      (qualified_name
+        (name
+          (identifier))))
+    (usage_declaration
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (connection_part
+      (nary_connect_endpoint
+        (name
+          (identifier))
+        (feature_chain
+          (name
+            (identifier))))
+      (nary_connect_endpoint
+        (name
+          (identifier))
+        (feature_chain
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Connect statement with body
+================================================================================
+
+#causation connect a to b {
+    @CausationMetadata;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (connect_statement
+    (prefix_metadata
+      (qualified_name
+        (name
+          (identifier))))
+    (connect_endpoint
+      (feature_chain
+        (name
+          (identifier))))
+    (connect_endpoint
+      (feature_chain
+        (name
+          (identifier))))
+    (usage_body
+      (metadata_usage
+        (qualified_name
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Flow with feature chain endpoints and body
+================================================================================
+
+part p {
+    flow a.b to c.d { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (flow_statement
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Allocate with named endpoints
+================================================================================
+
+part p {
+    allocate logical ::> x to physical ::> y { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (allocate_statement
+        (name
+          (identifier))
+        (feature_chain
+          (name
+            (identifier)))
+        (name
+          (identifier))
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Flow with body
+================================================================================
+
+action a {
+    flow a.b to c.d { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (action_body
+      (flow_statement
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Redefinition statement
+================================================================================
+
+part def Test {
+    :>> start;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (redefines_statement
+        (feature_chain
+          (name
+            (identifier)))))))

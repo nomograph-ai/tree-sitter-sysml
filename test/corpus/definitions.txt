@@ -1,0 +1,399 @@
+================================================================================
+Simple part definition
+================================================================================
+
+part def Engine;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Part definition with body
+================================================================================
+
+part def Vehicle {
+    part engine : Engine;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (part_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Abstract part definition
+================================================================================
+
+abstract part def AbstractComponent;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Part definition with specialization
+================================================================================
+
+part def Car :> Vehicle;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (definition_specialization
+      (qualified_name
+        (name
+          (identifier))))
+    (structural_body)))
+
+================================================================================
+Attribute definition with specialization
+================================================================================
+
+attribute def Mass :> Real;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_definition
+    (identification
+      (name
+        (identifier)))
+    (definition_specialization
+      (qualified_name
+        (name
+          (identifier))))
+    (structural_body)))
+
+================================================================================
+Port definition
+================================================================================
+
+port def FuelPort;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (port_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Action definition
+================================================================================
+
+action def Accelerate {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body)))
+
+================================================================================
+Requirement definition
+================================================================================
+
+requirement def SafetyReq {
+    doc /* The system shall be safe. */
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (documentation
+        (block_comment_body)))))
+
+================================================================================
+Enumeration definition
+================================================================================
+
+enum def Color {
+    enum Red;
+    enum Green;
+    enum Blue;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enumeration_definition
+    (identification
+      (name
+        (identifier)))
+    (enumeration_body
+      (enumeration_member
+        (name
+          (identifier)))
+      (enumeration_member
+        (name
+          (identifier)))
+      (enumeration_member
+        (name
+          (identifier))))))
+
+================================================================================
+Standalone doc keyword
+================================================================================
+
+package Test {
+    doc
+    /* Documentation here */
+    
+    part def Wheel;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (documentation
+        (block_comment_body))
+      (part_definition
+        (identification
+          (name
+            (identifier)))
+        (structural_body)))))
+
+================================================================================
+Use case definition
+================================================================================
+
+use case def Login;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (use_case_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body)))
+
+================================================================================
+Interface definition with endpoints
+================================================================================
+
+interface def DataInterface {
+    end sender : SenderPort;
+    end receiver : ReceiverPort;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (interface_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (end_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (end_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Allocation definition
+================================================================================
+
+allocation def SoftwareToHardware;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (allocation_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Analysis definition
+================================================================================
+
+analysis def TradeStudy;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (analysis_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body)))
+
+================================================================================
+Case definition
+================================================================================
+
+case def NominalScenario;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (case_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body)))
+
+================================================================================
+Verification definition
+================================================================================
+
+verification def PerformanceTest;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (verification_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body)))
+
+================================================================================
+Occurrence definition
+================================================================================
+
+occurrence def Accident;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (occurrence_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Individual definition
+================================================================================
+
+individual def Vehicle1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (individual_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Item definition
+================================================================================
+
+item def Payload;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (item_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Connection definition with end redefinitions
+================================================================================
+
+connection def USB {
+    end :>> source : USBPort;
+    end :>> target : USBPort;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (connection_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (end_usage
+        (usage_declaration
+          (relationship_part
+            (redefinition_part
+              (feature_chain
+                (name
+                  (identifier)))
+              (typing_part
+                (qualified_name
+                  (name
+                    (identifier)))))))
+        (usage_body))
+      (end_usage
+        (usage_declaration
+          (relationship_part
+            (redefinition_part
+              (feature_chain
+                (name
+                  (identifier)))
+              (typing_part
+                (qualified_name
+                  (name
+                    (identifier)))))))
+        (usage_body)))))

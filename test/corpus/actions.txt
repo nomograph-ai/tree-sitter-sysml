@@ -1,0 +1,586 @@
+================================================================================
+Action with parameters
+================================================================================
+
+action def Focus {
+    in scene : Scene;
+    out image : Image;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+First and then actions
+================================================================================
+
+action def TakePicture {
+    first action focus : Focus;
+    then action shoot : Shoot;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (action_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (action_body))
+      (action_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (action_body)))))
+
+================================================================================
+Succession statement
+================================================================================
+
+action def X {
+    first a then b;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (first_statement
+        (feature_chain
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+First start then succession
+================================================================================
+
+action def Y {
+    first start then continue {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (first_statement
+        (feature_chain
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Control nodes
+================================================================================
+
+action def X {
+    first start;
+    then decide;
+    then merge cont;
+    then done;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (first_statement
+        (name
+          (identifier)))
+      (control_node)
+      (control_node
+        (name
+          (identifier)))
+      (done_statement))))
+
+================================================================================
+Loop action with until
+================================================================================
+
+action def Charge {
+    loop action monitor : Monitor {
+    } until monitor.level >= 100;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (action_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (action_body
+          (binary_expression
+            (feature_chain_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (name
+                (identifier)))
+            (literal
+              (integer_literal))))))))
+
+================================================================================
+For loop
+================================================================================
+
+action def Process {
+    for item in items {
+        then assign x := item;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (for_loop
+        (name
+          (identifier))
+        (qualified_name
+          (name
+            (identifier)))
+        (assign_statement
+          (feature_chain
+            (name
+              (identifier)))
+          (qualified_name
+            (name
+              (identifier))))))))
+
+================================================================================
+Assign statement
+================================================================================
+
+action def X {
+    then assign position := value;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (assign_statement
+        (feature_chain
+          (name
+            (identifier)))
+        (qualified_name
+          (name
+            (identifier)))))))
+
+================================================================================
+Perform statement with body
+================================================================================
+
+action def X {
+    perform action calc : Calculate {
+        in x = value;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (perform_statement
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (parameter_usage
+          (port_direction)
+          (usage_declaration
+            (identification
+              (name
+                (identifier)))
+            (value_part
+              (qualified_name
+                (name
+                  (identifier)))))
+          (usage_body))))))
+
+================================================================================
+Textual representation with rep
+================================================================================
+
+action greet {
+    language "python"
+    /* print("Hello") */
+    
+    rep inAlf language "alf"
+    /* WriteLine("Hello"); */
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (action_body
+      (opaque_body
+        (string_literal)
+        (block_comment_body))
+      (textual_representation
+        (identification
+          (name
+            (identifier)))
+        (string_literal)
+        (block_comment_body)))))
+
+================================================================================
+Accept with typing
+================================================================================
+
+action def A {
+    accept engineStart : EngineStart;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (accept_then_statement
+        (identification
+          (name
+            (identifier)))
+        (typing_part
+          (qualified_name
+            (name
+              (identifier))))))))
+
+================================================================================
+Succession with body
+================================================================================
+
+action a {
+    succession first start then continue { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (action_body
+      (succession_statement
+        (feature_chain
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Succession with multiplicity
+================================================================================
+
+action a {
+    succession [n] first [0..1] x then [0..1] y;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (action_body
+      (succession_statement
+        (multiplicity
+          (multiplicity_bound
+            (identifier)))
+        (multiplicity
+          (multiplicity_bound
+            (integer_literal))
+          (multiplicity_bound
+            (integer_literal)))
+        (feature_chain
+          (name
+            (identifier)))
+        (multiplicity
+          (multiplicity_bound
+            (integer_literal))
+          (multiplicity_bound
+            (integer_literal)))
+        (feature_chain
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Variation perform action
+================================================================================
+
+action a {
+    variation perform action doXorY { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (action_body
+      (perform_statement
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+If then statement
+================================================================================
+
+action def TestAction {
+    if isReady then doWork;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (if_then_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (name
+          (identifier))))))
+
+================================================================================
+If then else statement
+================================================================================
+
+action def TestAction {
+    if isReady then doWork;
+    else doWait;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (if_then_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (name
+          (identifier)))
+      (else_statement
+        (name
+          (identifier))))))
+
+================================================================================
+While loop
+================================================================================
+
+action def TestAction {
+    while isRunning {
+        action doStep;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (while_loop
+        (qualified_name
+          (name
+            (identifier)))
+        (action_usage
+          (usage_declaration
+            (identification
+              (name
+                (identifier))))
+          (action_body))))))
+
+================================================================================
+Send statement with to
+================================================================================
+
+action def TestAction {
+    send signal to target;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (send_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Send statement with via
+================================================================================
+
+action def TestAction {
+    send request via channel;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (send_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Terminate statement
+================================================================================
+
+action def Workflow {
+    action doWork;
+    terminate doWork;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (action_definition
+    (identification
+      (name
+        (identifier)))
+    (action_body
+      (action_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier))))
+        (action_body))
+      (terminate_statement
+        (feature_chain
+          (name
+            (identifier)))))))

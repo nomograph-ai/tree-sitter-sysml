@@ -1,0 +1,563 @@
+================================================================================
+Empty view definition
+================================================================================
+
+view def EmptyView;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+View definition with body
+================================================================================
+
+view def PartView {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+View definition with satisfy
+================================================================================
+
+view def PartView {
+    satisfy perspective1;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (satisfy_statement
+        (qualified_name
+          (name
+            (identifier)))))))
+
+================================================================================
+View definition with filter
+================================================================================
+
+view def PartView {
+    filter @SysML::PartUsage;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (filter_statement
+        (metadata_access_expression
+          (qualified_name
+            (name
+              (identifier))
+            (name
+              (identifier))))))))
+
+================================================================================
+View usage with expose
+================================================================================
+
+view vehicleView {
+    expose vehicle::**;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (expose_statement
+        (import_reference
+          (wildcard_import
+            (name
+              (identifier))))))))
+
+================================================================================
+View usage with render
+================================================================================
+
+view vehicleView {
+    render asTreeDiagram;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (render_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+View usage with typing
+================================================================================
+
+view vehicleView : PartView {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body)))
+
+================================================================================
+Empty viewpoint definition
+================================================================================
+
+viewpoint TestViewpoint;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (viewpoint_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body)))
+
+================================================================================
+Viewpoint with frame
+================================================================================
+
+viewpoint perspective1 {
+    frame concern1;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (viewpoint_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (frame_statement
+        (qualified_name
+          (name
+            (identifier)))))))
+
+================================================================================
+Viewpoint with multiple frames
+================================================================================
+
+viewpoint 'system perspective' {
+    frame 'system breakdown';
+    frame modularity;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (viewpoint_definition
+    (identification
+      (name
+        (quoted_name)))
+    (requirement_body
+      (frame_statement
+        (qualified_name
+          (name
+            (quoted_name))))
+      (frame_statement
+        (qualified_name
+          (name
+            (identifier)))))))
+
+================================================================================
+Viewpoint with require constraint
+================================================================================
+
+viewpoint perspective1 {
+    require constraint {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (viewpoint_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (require_statement
+        (constraint_body)))))
+
+================================================================================
+Empty concern definition
+================================================================================
+
+concern TestConcern;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (concern_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body)))
+
+================================================================================
+Concern with subject
+================================================================================
+
+concern breakdown {
+    subject;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (concern_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (subject_statement))))
+
+================================================================================
+Concern with stakeholder
+================================================================================
+
+concern breakdown {
+    stakeholder se : Engineer;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (concern_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (stakeholder_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Empty rendering definition
+================================================================================
+
+rendering TestRendering;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (rendering_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Rendering with specialization
+================================================================================
+
+rendering asTextTable :> asElementTable;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (rendering_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (relationship_part
+        (specialization_part
+          (feature_chain
+            (name
+              (identifier))))))
+    (structural_body)))
+
+================================================================================
+Full view definition with satisfy filter expose render
+================================================================================
+
+view def 'Part Structure View' {
+    satisfy perspective1;
+    filter @SysML::PartUsage;
+    expose vehicle::**;
+    render asTreeDiagram;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_definition
+    (identification
+      (name
+        (quoted_name)))
+    (structural_body
+      (satisfy_statement
+        (qualified_name
+          (name
+            (identifier))))
+      (filter_statement
+        (metadata_access_expression
+          (qualified_name
+            (name
+              (identifier))
+            (name
+              (identifier)))))
+      (expose_statement
+        (import_reference
+          (wildcard_import
+            (name
+              (identifier)))))
+      (render_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Nested views
+================================================================================
+
+view 'tabular views' {
+    view 'safety view' {
+    }
+    view 'non-safety view' {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_usage
+    (usage_declaration
+      (identification
+        (name
+          (quoted_name))))
+    (usage_body
+      (view_usage
+        (usage_declaration
+          (identification
+            (name
+              (quoted_name))))
+        (usage_body))
+      (view_usage
+        (usage_declaration
+          (identification
+            (name
+              (quoted_name))))
+        (usage_body)))))
+
+================================================================================
+Rendering usage with redefinition
+================================================================================
+
+rendering asTextTable :> asElementTable {
+    view :>> columnView[1] {
+        render asTextNotation;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (rendering_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (relationship_part
+        (specialization_part
+          (feature_chain
+            (name
+              (identifier))))))
+    (structural_body
+      (view_usage
+        (usage_declaration
+          (relationship_part
+            (redefinition_part
+              (feature_chain
+                (name
+                  (identifier)))))
+          (multiplicity
+            (multiplicity_bound
+              (integer_literal))))
+        (usage_body
+          (render_statement
+            (qualified_name
+              (name
+                (identifier)))
+            (usage_body)))))))
+
+================================================================================
+Expose with filter expression
+================================================================================
+
+view safetyView {
+    expose vehicle::**[@Safety];
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (expose_statement
+        (import_reference
+          (wildcard_import
+            (name
+              (identifier))
+            (metadata_access_expression
+              (qualified_name
+                (name
+                  (identifier))))))))))
+
+================================================================================
+View with filter in usage body
+================================================================================
+
+view v:V{
+    expose PartsTree::**;
+    filter @Safety;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body
+      (expose_statement
+        (import_reference
+          (wildcard_import
+            (name
+              (identifier)))))
+      (filter_statement
+        (metadata_access_expression
+          (qualified_name
+            (name
+              (identifier))))))))
+
+================================================================================
+Abstract ref rendering usage
+================================================================================
+
+abstract ref rendering viewRendering : R[0..1] { }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (rendering_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (multiplicity
+        (multiplicity_bound
+          (integer_literal))
+        (multiplicity_bound
+          (integer_literal))))
+    (structural_body)))
+
+================================================================================
+Render with body
+================================================================================
+
+view v {
+    render asX { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (view_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (render_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Abstract viewpoint with typing
+================================================================================
+
+abstract viewpoint vp : T { }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (viewpoint_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (requirement_body)))

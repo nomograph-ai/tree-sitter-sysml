@@ -1,0 +1,164 @@
+================================================================================
+Flow definition
+================================================================================
+
+flow def FuelFlow {
+    end port supplier : FuelOutPort;
+    end port consumer : FuelInPort;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (flow_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (end_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (end_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body)))))
+
+================================================================================
+Flow statement simple
+================================================================================
+
+part x {
+    flow a.out to b.in;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (flow_statement
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Flow statement with from
+================================================================================
+
+part x {
+    flow from a.out to b.in;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (flow_usage
+        (flow_part
+          (feature_chain
+            (name
+              (identifier))
+            (name
+              (identifier)))
+          (feature_chain
+            (name
+              (identifier))
+            (name
+              (identifier))))
+        (usage_body)))))
+
+================================================================================
+Succession flow
+================================================================================
+
+part x {
+    succession flow from a to b;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (flow_statement
+        (feature_chain
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))
+        (usage_body)))))
+
+================================================================================
+Abstract message with usage declaration
+================================================================================
+
+package P {
+  abstract message messages : Message[0..*] nonunique :> transfers {
+    doc /* base feature */
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (message_statement
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier))))
+          (multiplicity
+            (multiplicity_bound
+              (integer_literal)))
+          (nonunique_modifier)
+          (relationship_part
+            (specialization_part
+              (feature_chain
+                (name
+                  (identifier))))))
+        (usage_body
+          (documentation
+            (block_comment_body)))))))

@@ -1,0 +1,237 @@
+================================================================================
+Constraint definition with parameters
+================================================================================
+
+constraint def MassConstraint {
+    in partMasses : MassValue[0..*];
+    in massLimit : MassValue;
+    sum(partMasses) <= massLimit
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constraint_definition
+    (identification
+      (name
+        (identifier)))
+    (constraint_body
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier))))
+          (multiplicity
+            (multiplicity_bound
+              (integer_literal))))
+        (usage_body))
+      (parameter_usage
+        (port_direction)
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (usage_body))
+      (binary_expression
+        (function_call_expression
+          (qualified_name
+            (name
+              (identifier)))
+          (qualified_name
+            (name
+              (identifier))))
+        (qualified_name
+          (name
+            (identifier)))))))
+
+================================================================================
+Constraint usage with bindings
+================================================================================
+
+part def Vehicle {
+    constraint massConstraint : MassConstraint {
+        in partMasses = (chassisMass, engine);
+        in massLimit = 2500[kg];
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (constraint_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier)))))
+        (constraint_body
+          (parameter_usage
+            (port_direction)
+            (usage_declaration
+              (identification
+                (name
+                  (identifier)))
+              (value_part
+                (collection_expression
+                  (qualified_name
+                    (name
+                      (identifier)))
+                  (qualified_name
+                    (name
+                      (identifier))))))
+            (usage_body))
+          (parameter_usage
+            (port_direction)
+            (usage_declaration
+              (identification
+                (name
+                  (identifier)))
+              (value_part
+                (measurement_expression
+                  (literal
+                    (integer_literal))
+                  (qualified_name
+                    (name
+                      (identifier))))))
+            (usage_body)))))))
+
+================================================================================
+Assert constraint inline
+================================================================================
+
+part vehicle : Vehicle {
+    assert constraint {totalMass == chassisMass + engine}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body
+      (assert_statement
+        (constraint_body
+          (binary_expression
+            (binary_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))
+            (qualified_name
+              (name
+                (identifier)))))))))
+
+================================================================================
+Assume constraint
+================================================================================
+
+requirement def VehicleMassReq {
+    assume constraint { fuelMass > 0[kg] }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (assume_statement
+        (constraint_body
+          (binary_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (measurement_expression
+              (literal
+                (integer_literal))
+              (qualified_name
+                (name
+                  (identifier))))))))))
+
+================================================================================
+Require constraint by reference
+================================================================================
+
+requirement def SafetyReq {
+    require constraint massLimit;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (requirement_definition
+    (identification
+      (name
+        (identifier)))
+    (requirement_body
+      (require_statement
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Abstract constraint definition
+================================================================================
+
+abstract constraint def PhysicsLaw;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constraint_definition
+    (identification
+      (name
+        (identifier)))
+    (constraint_body)))
+
+================================================================================
+Private assert constraint
+================================================================================
+
+part p {
+    private assert constraint c { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (assert_statement
+        (visibility)
+        (identification
+          (name
+            (identifier)))
+        (usage_body)))))

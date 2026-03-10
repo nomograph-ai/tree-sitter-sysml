@@ -1,0 +1,228 @@
+================================================================================
+Metadata definition
+================================================================================
+
+metadata def SafetyFeature;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (metadata_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+Metadata definition with annotated element
+================================================================================
+
+metadata def SecurityFeature {
+    :> annotatedElement : SysML::PartDefinition;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (metadata_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (specialization_statement
+        (qualified_name
+          (name
+            (identifier)))
+        (typing_part
+          (qualified_name
+            (name
+              (identifier))
+            (name
+              (identifier))))))))
+
+================================================================================
+Metadata usage about elements
+================================================================================
+
+metadata SafetyFeature about
+    vehicle::interior::seatBelt,
+    vehicle::bodyAssy::bumper;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (metadata_usage
+    (qualified_name
+      (name
+        (identifier)))
+    (qualified_name
+      (name
+        (identifier))
+      (name
+        (identifier))
+      (name
+        (identifier)))
+    (qualified_name
+      (name
+        (identifier))
+      (name
+        (identifier))
+      (name
+        (identifier)))
+    (usage_body)))
+
+================================================================================
+Metadata usage with body
+================================================================================
+
+metadata ToolExecution {
+    toolName = "ModelCenter";
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (metadata_usage
+    (qualified_name
+      (name
+        (identifier)))
+    (usage_body
+      (expression_statement
+        (binary_expression
+          (qualified_name
+            (name
+              (identifier)))
+          (literal
+            (string_literal)))))))
+
+================================================================================
+Prefix metadata on definition
+================================================================================
+
+#Approved
+part def Vehicle;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (prefix_metadata
+      (qualified_name
+        (name
+          (identifier))))
+    (identification
+      (name
+        (identifier)))
+    (structural_body)))
+
+================================================================================
+At-sign metadata access
+================================================================================
+
+part x {
+    attribute toolVar = @ToolVariable;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier))))
+    (usage_body
+      (attribute_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (value_part
+            (metadata_access_expression
+              (qualified_name
+                (name
+                  (identifier))))))
+        (usage_body)))))
+
+================================================================================
+Inline metadata with at-sign
+================================================================================
+
+in dt : TimeValue { @ToolVariable { name = "deltaT"; } }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (parameter_usage
+    (port_direction)
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier)))))
+    (usage_body
+      (metadata_usage
+        (qualified_name
+          (name
+            (identifier)))
+        (usage_body
+          (expression_statement
+            (binary_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (literal
+                (string_literal)))))))))
+
+================================================================================
+Metadata with nested block
+================================================================================
+
+@StatusInfo {
+    status = StatusKind::tbd;
+    risk {
+        totalRisk = high;
+        technicalRisk = medium;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (metadata_usage
+    (qualified_name
+      (name
+        (identifier)))
+    (usage_body
+      (expression_statement
+        (binary_expression
+          (qualified_name
+            (name
+              (identifier)))
+          (qualified_name
+            (name
+              (identifier))
+            (name
+              (identifier)))))
+      (redefines_statement
+        (name
+          (identifier))
+        (expression_statement
+          (binary_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (qualified_name
+              (name
+                (identifier)))))
+        (expression_statement
+          (binary_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (qualified_name
+              (name
+                (identifier)))))))))

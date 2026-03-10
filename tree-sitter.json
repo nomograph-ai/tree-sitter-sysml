@@ -1,0 +1,41 @@
+{
+  "grammars": [
+    {
+      "name": "sysml",
+      "camelcase": "SysML",
+      "scope": "source.sysml",
+      "path": ".",
+      "file-types": [
+        "sysml"
+      ],
+      "highlights": "queries/highlights.scm",
+      "locals": "queries/locals.scm",
+      "tags": "queries/tags.scm",
+      "folds": "queries/folds.scm",
+      "indents": "queries/indents.scm",
+      "injection-regex": "^sysml$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "SysML v2 grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Andrew Dunn",
+        "email": "andrew@dunn.dev"
+      }
+    ],
+    "links": {
+      "repository": "https://gitlab.com/nomograph/tree-sitter-sysml"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
