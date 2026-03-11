@@ -1,12 +1,12 @@
 # tree-sitter-sysml
 
+[![Nomograph Labs](https://img.shields.io/badge/Nomograph_Labs-1a1a1a?style=flat&labelColor=f2f0eb&color=1a1a1a)](https://nomograph.ai)
+[![License: MIT](https://img.shields.io/badge/License-MIT-1a1a1a.svg)](LICENSE)
 [![pipeline status](https://gitlab.com/nomograph/tree-sitter-sysml/badges/main/pipeline.svg)](https://gitlab.com/nomograph/tree-sitter-sysml/-/pipelines)
 [![parse coverage](https://img.shields.io/gitlab/pipeline-coverage/nomograph%2Ftree-sitter-sysml?branch=main&label=parse%20coverage&color=brightgreen)](https://gitlab.com/nomograph/tree-sitter-sysml/-/pipelines)
-[![npm](https://img.shields.io/npm/v/tree-sitter-sysml?logo=npm)](https://www.npmjs.com/package/tree-sitter-sysml)
 [![crates](https://img.shields.io/crates/v/tree-sitter-sysml?logo=rust)](https://crates.io/crates/tree-sitter-sysml)
 [![PyPI](https://img.shields.io/pypi/v/tree-sitter-sysml?logo=python)](https://pypi.org/project/tree-sitter-sysml/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-1a1a1a.svg)](LICENSE)
-[![Nomograph Labs](https://img.shields.io/badge/Nomograph_Labs-1a1a1a?style=flat&labelColor=f2f0eb&color=1a1a1a)](https://nomograph.ai)
+[![npm](https://img.shields.io/npm/v/tree-sitter-sysml?logo=npm)](https://www.npmjs.com/package/tree-sitter-sysml)
 
 [Tree-sitter](https://tree-sitter.github.io/) grammar for [SysML v2](https://www.omg.org/spec/SysML/2.0/), the next-generation systems modeling language from the OMG.
 
