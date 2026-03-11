@@ -2,6 +2,7 @@ stages:
   - test
   - coverage
   - security
+  - publish
   - pages
 
 variables:
@@ -82,6 +83,53 @@ dependency_scanning:
 
 secret_detection:
   stage: security
+
+# ============================================================================
+# Publish Stage — triggered by version tags (v*)
+# ============================================================================
+
+publish-crates:
+  stage: publish
+  image: rust:1.85
+  script:
+    - cargo publish --no-verify
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/
+
+publish-npm:
+  stage: publish
+  image: node:24
+  id_tokens:
+    NPM_ID_TOKEN:
+      aud: "npm:registry.npmjs.org"
+    SIGSTORE_ID_TOKEN:
+      aud: sigstore
+  script:
+    - |
+      if [ -z "$NPM_TOKEN" ]; then
+        echo "Using OIDC trusted publishing"
+      else
+        echo "Using NPM_TOKEN (first publish or fallback)"
+        echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+      fi
+    - npm publish
+  after_script:
+    - rm -f .npmrc
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/
+
+publish-pypi:
+  stage: publish
+  image: python:3.12
+  id_tokens:
+    PYPI_ID_TOKEN:
+      aud: pypi
+  script:
+    - pip install -U build twine
+    - python -m build
+    - twine upload dist/*
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/
 
 # ============================================================================
 # Pages - Tree-sitter Playground
