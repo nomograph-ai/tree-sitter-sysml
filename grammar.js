@@ -758,6 +758,7 @@ module.exports = grammar({
           optional(seq('while', $._expression)),
           '{',
           repeat(choice($._behavioral_member, $.opaque_body, $.textual_representation)),
+          optional($._expression),
           '}',
           optional(seq('until', $._expression, ';')),
         ),
