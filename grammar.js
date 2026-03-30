@@ -207,6 +207,7 @@ module.exports = grammar({
       choice(
         $._definition,
         $._usage,
+        $.actor_usage,
         $.import_statement,
         $.alias_statement,
         $.comment_statement,
@@ -1396,6 +1397,7 @@ module.exports = grammar({
         $.render_statement,
         $.filter_statement,
         $.textual_representation,
+        $.specialization_statement,
       ),
 
     // =========================================================================
@@ -1437,6 +1439,7 @@ module.exports = grammar({
         $.satisfy_statement,
         $.perform_statement,
         $.shorthand_attribute,
+        $.dependency,
       ),
 
     // Behavioral members - valid in action (adds control flow to structural)
@@ -2017,7 +2020,7 @@ module.exports = grammar({
       seq('filter', $._expression, ';'),
 
     specialization_statement: ($) =>
-      seq(':>', $.qualified_name, optional($.typing_part), ';'),
+      seq(':>', $.qualified_name, optional($.typing_part), optional($.value_part), ';'),
 
     stakeholder_usage: ($) =>
       seq('stakeholder', optional($.usage_declaration), $.usage_body),

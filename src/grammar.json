@@ -177,6 +177,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "actor_usage"
+        },
+        {
+          "type": "SYMBOL",
           "name": "import_statement"
         },
         {
@@ -7666,6 +7670,10 @@
         {
           "type": "SYMBOL",
           "name": "textual_representation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "specialization_statement"
         }
       ]
     },
@@ -7799,6 +7807,10 @@
         {
           "type": "SYMBOL",
           "name": "shorthand_attribute"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dependency"
         }
       ]
     },
@@ -12376,6 +12388,18 @@
             {
               "type": "SYMBOL",
               "name": "typing_part"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "value_part"
             },
             {
               "type": "BLANK"

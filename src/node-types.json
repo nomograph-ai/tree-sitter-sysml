@@ -447,6 +447,10 @@
           "named": true
         },
         {
+          "type": "specialization_statement",
+          "named": true
+        },
+        {
           "type": "state_definition",
           "named": true
         },
@@ -683,6 +687,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -1926,6 +1934,10 @@
         },
         {
           "type": "snapshot_usage",
+          "named": true
+        },
+        {
+          "type": "specialization_statement",
           "named": true
         },
         {
@@ -3221,6 +3233,10 @@
           "named": true
         },
         {
+          "type": "dependency",
+          "named": true
+        },
+        {
           "type": "documentation",
           "named": true
         },
@@ -3727,6 +3743,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -4537,6 +4557,10 @@
           "named": true
         },
         {
+          "type": "specialization_statement",
+          "named": true
+        },
+        {
           "type": "state_definition",
           "named": true
         },
@@ -5123,6 +5147,10 @@
         },
         {
           "type": "snapshot_usage",
+          "named": true
+        },
+        {
+          "type": "specialization_statement",
           "named": true
         },
         {
@@ -6014,6 +6042,10 @@
           "named": true
         },
         {
+          "type": "specialization_statement",
+          "named": true
+        },
+        {
           "type": "state_definition",
           "named": true
         },
@@ -6711,6 +6743,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -7421,6 +7457,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -8547,6 +8587,10 @@
           "named": true
         },
         {
+          "type": "dependency",
+          "named": true
+        },
+        {
           "type": "documentation",
           "named": true
         },
@@ -9598,6 +9642,10 @@
           "named": true
         },
         {
+          "type": "actor_usage",
+          "named": true
+        },
+        {
           "type": "alias_statement",
           "named": true
         },
@@ -10201,6 +10249,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -11093,6 +11145,10 @@
           "named": true
         },
         {
+          "type": "specialization_statement",
+          "named": true
+        },
+        {
           "type": "state_definition",
           "named": true
         },
@@ -11540,6 +11596,10 @@
         },
         {
           "type": "constraint_usage",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -12032,6 +12092,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -13025,6 +13089,10 @@
         {
           "type": "typing_part",
           "named": true
+        },
+        {
+          "type": "value_part",
+          "named": true
         }
       ]
     }
@@ -13166,6 +13234,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -13682,6 +13754,10 @@
         },
         {
           "type": "constraint_usage",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -14543,6 +14619,10 @@
           "named": true
         },
         {
+          "type": "specialization_statement",
+          "named": true
+        },
+        {
           "type": "state_definition",
           "named": true
         },
@@ -14771,6 +14851,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
@@ -15616,6 +15700,10 @@
           "named": true
         },
         {
+          "type": "specialization_statement",
+          "named": true
+        },
+        {
           "type": "state_definition",
           "named": true
         },
@@ -16295,6 +16383,10 @@
         },
         {
           "type": "snapshot_usage",
+          "named": true
+        },
+        {
+          "type": "specialization_statement",
           "named": true
         },
         {
@@ -17009,6 +17101,10 @@
           "named": true
         },
         {
+          "type": "specialization_statement",
+          "named": true
+        },
+        {
           "type": "state_definition",
           "named": true
         },
@@ -17354,6 +17450,10 @@
         },
         {
           "type": "control_node",
+          "named": true
+        },
+        {
+          "type": "dependency",
           "named": true
         },
         {
