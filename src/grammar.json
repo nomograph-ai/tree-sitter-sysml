@@ -8258,6 +8258,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "redefines_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_usage"
         },
         {

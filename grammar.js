@@ -1529,6 +1529,7 @@ module.exports = grammar({
     _enum_member_content: ($) =>
       choice(
         $.redefinition_statement,
+        $.redefines_statement,
         $._usage,
         $.comment_statement,
         $.documentation,

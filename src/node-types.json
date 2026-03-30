@@ -5423,6 +5423,10 @@
           "named": true
         },
         {
+          "type": "redefines_statement",
+          "named": true
+        },
+        {
           "type": "redefinition_statement",
           "named": true
         },
