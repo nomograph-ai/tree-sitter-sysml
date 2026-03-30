@@ -8954,6 +8954,10 @@
           "named": true
         },
         {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
           "type": "invocation_expression",
           "named": true
         },
@@ -15912,6 +15916,10 @@
       "required": true,
       "types": [
         {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
           "type": "qualified_name",
           "named": true
         },
@@ -18048,11 +18056,13 @@
   },
   {
     "type": "comment",
-    "named": false
+    "named": false,
+    "extra": true
   },
   {
     "type": "comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "concern",

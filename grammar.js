@@ -26,6 +26,8 @@ module.exports = grammar({
   word: ($) => $.identifier,
 
   conflicts: ($) => [
+    // wildcard_import and qualified_name share a name :: name prefix
+    [$.wildcard_import, $.qualified_name],
     // part vs part def ambiguity resolved by looking ahead
     [$.part_definition, $.part_usage],
     [$.item_definition, $.item_usage],
@@ -2252,6 +2254,7 @@ module.exports = grammar({
         $.unit_binary,
         $.unit_exponent,
         $.qualified_name,
+        $.integer_literal,
       ),
 
     unit_binary: ($) =>

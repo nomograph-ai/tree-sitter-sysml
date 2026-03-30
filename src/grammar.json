@@ -13992,6 +13992,10 @@
         {
           "type": "SYMBOL",
           "name": "qualified_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "integer_literal"
         }
       ]
     },
@@ -14816,6 +14820,10 @@
   ],
   "conflicts": [
     [
+      "wildcard_import",
+      "qualified_name"
+    ],
+    [
       "part_definition",
       "part_usage"
     ],
@@ -15192,5 +15200,6 @@
   "precedences": [],
   "externals": [],
   "inline": [],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }
