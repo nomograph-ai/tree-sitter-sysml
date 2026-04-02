@@ -10,6 +10,8 @@ variables:
 
 default:
   image: node:${NODE_VERSION}
+  tags:
+    - storr
 
 # ============================================================================
 # Test Stage
