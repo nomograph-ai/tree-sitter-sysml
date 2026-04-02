@@ -6,7 +6,7 @@ stages:
   - pages
 
 default:
-  image: node:22-noble
+  image: node:22-trixie
   tags:
     - storr
 
