@@ -5,11 +5,8 @@ stages:
   - publish
   - pages
 
-variables:
-  NODE_VERSION: "20"
-
 default:
-  image: node:${NODE_VERSION}
+  image: node:22-noble
   tags:
     - storr
 
