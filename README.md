@@ -1,3 +1,5 @@
+![hero](hero.svg)
+
 # tree-sitter-sysml
 
 [![Nomograph Labs](https://img.shields.io/badge/Nomograph_Labs-1a1a1a?style=flat&labelColor=f2f0eb&color=1a1a1a)](https://nomograph.ai)
@@ -7,6 +9,7 @@
 [![crates](https://img.shields.io/crates/v/tree-sitter-sysml?logo=rust)](https://crates.io/crates/tree-sitter-sysml)
 [![PyPI](https://img.shields.io/pypi/v/tree-sitter-sysml?logo=python)](https://pypi.org/project/tree-sitter-sysml/)
 [![npm](https://img.shields.io/npm/v/tree-sitter-sysml?logo=npm)](https://www.npmjs.com/package/tree-sitter-sysml)
+![built with GitLab](https://img.shields.io/badge/built_with-GitLab-FC6D26?logo=gitlab)
 
 [Tree-sitter](https://tree-sitter.github.io/) grammar for [SysML v2](https://www.omg.org/spec/SysML/2.0/), the next-generation systems modeling language from the OMG.
 
@@ -403,3 +406,6 @@ MIT
 ## Author
 
 Andrew Dunn — [Nomograph Labs](https://gitlab.com/nomograph)
+
+---
+Built by Andrew Dunn, April 2026.
