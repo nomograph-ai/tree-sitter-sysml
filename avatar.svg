@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Outer fill -->
+  <rect x="0" y="0" width="256" height="256" fill="#faf6ed" rx="0"/>
+  <!-- Inset frame -->
+  <rect x="20" y="20" width="216" height="216" fill="none" stroke="#2c2417" stroke-width="4" rx="0"/>
+  <!-- Header bar -->
+  <rect x="28" y="28" width="200" height="36" fill="#2c2417" rx="0"/>
+  <text x="128" y="53" text-anchor="middle" font-size="20" fill="#faf6ed" font-weight="bold" font-family="'Courier New', monospace">ts-sysml</text>
+
+  <!-- Schematic: Simple tree structure (root with 2-3 children) -->
+  <!-- Root node -->
+  <rect x="103" y="82" width="50" height="24" fill="none" stroke="#2c2417" stroke-width="2" rx="0"/>
+  <text x="128" y="99" text-anchor="middle" font-size="9" fill="#2c2417" font-family="'Courier New', monospace" font-weight="bold">root</text>
+
+  <!-- Branches from root -->
+  <line x1="115" y1="106" x2="80" y2="130" stroke="#2c2417" stroke-width="1.5"/>
+  <line x1="128" y1="106" x2="128" y2="130" stroke="#2c2417" stroke-width="1.5"/>
+  <line x1="141" y1="106" x2="176" y2="130" stroke="#2c2417" stroke-width="1.5"/>
+
+  <!-- Child node 1 -->
+  <rect x="55" y="130" width="50" height="22" fill="none" stroke="#2c2417" stroke-width="2" rx="0"/>
+  <text x="80" y="145" text-anchor="middle" font-size="8" fill="#6b5d4f" font-family="'Courier New', monospace">def</text>
+
+  <!-- Child node 2 -->
+  <rect x="103" y="130" width="50" height="22" fill="none" stroke="#2c2417" stroke-width="2" rx="0"/>
+  <text x="128" y="145" text-anchor="middle" font-size="8" fill="#6b5d4f" font-family="'Courier New', monospace">part</text>
+
+  <!-- Child node 3 -->
+  <rect x="151" y="130" width="50" height="22" fill="none" stroke="#2c2417" stroke-width="2" rx="0"/>
+  <text x="176" y="145" text-anchor="middle" font-size="8" fill="#6b5d4f" font-family="'Courier New', monospace">use</text>
+
+  <!-- Grandchild branches from child 1 -->
+  <line x1="70" y1="152" x2="55" y2="172" stroke="#6b5d4f" stroke-width="1"/>
+  <line x1="90" y1="152" x2="105" y2="172" stroke="#6b5d4f" stroke-width="1"/>
+
+  <!-- Grandchild nodes -->
+  <rect x="35" y="172" width="40" height="18" fill="none" stroke="#6b5d4f" stroke-width="1.5" rx="0"/>
+  <text x="55" y="185" text-anchor="middle" font-size="7" fill="#6b5d4f" font-family="'Courier New', monospace">name</text>
+
+  <rect x="85" y="172" width="40" height="18" fill="none" stroke="#6b5d4f" stroke-width="1.5" rx="0"/>
+  <text x="105" y="185" text-anchor="middle" font-size="7" fill="#6b5d4f" font-family="'Courier New', monospace">body</text>
+
+  <!-- Grandchild branch from child 3 -->
+  <line x1="176" y1="152" x2="176" y2="172" stroke="#6b5d4f" stroke-width="1"/>
+  <rect x="156" y="172" width="40" height="18" fill="none" stroke="#6b5d4f" stroke-width="1.5" rx="0"/>
+  <text x="176" y="185" text-anchor="middle" font-size="7" fill="#6b5d4f" font-family="'Courier New', monospace">ref</text>
+
+  <!-- Base line -->
+  <line x1="60" y1="228" x2="196" y2="228" stroke="#c4b99a" stroke-width="2"/>
+</svg>
