@@ -26,6 +26,7 @@ Corpora:
   library     OMG SysML v2 standard library (GitHub)
   sysmod      MBSE4U/sysmod-sysmlv2 (GitHub)
   smarthome   sensmetry/smart-home-hub-example (GitHub)
+  apollo11    airbus/apollo-11-sysml-v2 (GitHub)
   all         All corpora
 
 Examples:
@@ -129,6 +130,21 @@ fetch_smarthome() {
   local count
   count=$(find "$target" -name "*.sysml" | wc -l | tr -d ' ')
   echo "smarthome: Fetched $count .sysml files"
+}
+
+fetch_apollo11() {
+  local target="$CORPORA_DIR/apollo11"
+  if [[ -d "$target" ]]; then
+    echo "apollo11: Already exists, skipping (use 'clean apollo11' first to re-fetch)"
+    return 0
+  fi
+
+  echo "apollo11: Cloning airbus/apollo-11-sysml-v2..."
+  mkdir -p "$CORPORA_DIR"
+  git clone --depth 1 --quiet https://github.com/airbus/apollo-11-sysml-v2.git "$target"
+  local count
+  count=$(find "$target" -name "*.sysml" | wc -l | tr -d ' ')
+  echo "apollo11: Fetched $count .sysml files"
 }
 
 fetch_training() {
@@ -255,6 +271,14 @@ show_status() {
   else
     echo "  smarthome: not fetched (run: ./scripts/fetch-corpora.sh smarthome)"
   fi
+
+  if [[ -d "$CORPORA_DIR/apollo11" ]]; then
+    local count
+    count=$(find "$CORPORA_DIR/apollo11" -name "*.sysml" 2>/dev/null | wc -l | tr -d ' ')
+    echo "  apollo11: $count files"
+  else
+    echo "  apollo11: not fetched (run: ./scripts/fetch-corpora.sh apollo11)"
+  fi
 }
 
 main() {
@@ -270,7 +294,7 @@ main() {
       --help|-h)
         usage
         ;;
-      training|examples|gfse|advent|validation|library|sysmod|smarthome|all)
+      training|examples|gfse|advent|validation|library|sysmod|smarthome|apollo11|all)
         corpora+=("$1")
         shift
         ;;
@@ -308,6 +332,7 @@ main() {
         fetch_library
         fetch_sysmod
         fetch_smarthome
+        fetch_apollo11
       else
         for c in "${corpora[@]}"; do
           case "$c" in
@@ -319,6 +344,7 @@ main() {
             library) fetch_library ;;
             sysmod) fetch_sysmod ;;
             smarthome) fetch_smarthome ;;
+            apollo11) fetch_apollo11 ;;
           esac
         done
       fi

@@ -23,13 +23,13 @@ This tree-sitter grammar provides a **standalone, incremental parser** with no I
 
 ## Status
 
-Parse coverage is tested on every push against 393 real-world SysML v2 files from 8 independent sources (see badge above).
+Parse coverage is tested on every push against 421 real-world SysML v2 files from 9 independent sources (see badge above).
 
 | Metric | Value |
 |--------|-------|
 | Corpus Tests | 192 passing |
 | Negative Tests | 18 (12 syntactic, 6 structural) |
-| External File Coverage | 393 files across 8 corpora |
+| External File Coverage | 421 files across 9 corpora |
 | Bindings | C, Rust, Go, Python, Node.js, Swift |
 | Queries | highlights, tags, locals, folds, indents |
 
@@ -49,7 +49,8 @@ Most tree-sitter grammars have the luxury of millions of open-source files to te
 | [GfSE Models](https://github.com/GfSE/SysML-v2-Models) | 36 | German systems engineering society models |
 | [SYSMOD](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 1 | SYSMOD methodology example |
 | [Sensmetry SmartHome](https://github.com/sensmetry/smart-home-hub-example) | 3 | Smart home hub example |
-| **Total** | **393** | |
+| [Apollo 11](https://github.com/airbus/apollo-11-sysml-v2) | 28 | Airbus CoSMA framework -- 5 architectural layers, largest public real-world SysML v2 model |
+| **Total** | **421** | |
 
 The training files were the development target — every grammar change was validated against all 100 training files. The remaining corpora serve as independent validation: the grammar was never specifically tuned to pass them, so their pass rate reflects genuine generalization.
 

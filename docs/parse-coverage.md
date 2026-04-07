@@ -4,7 +4,7 @@ Last updated: 2026-03-10
 
 ## Summary
 
-**387 / 393 files parse without errors (98.4%)**
+**415 / 421 files parse without errors (98.5%)**
 
 This grammar was developed empirically against real SysML v2 files from multiple
 sources. It uses an over-accepting strategy: the grammar accepts all valid SysML v2
@@ -23,7 +23,8 @@ trade-off is documented in the [limitations](#known-limitations) section.
 | Library | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml.library/` | 58 | 93.1% (54/58) |
 | SYSMOD | [MBSE4U/sysmod-sysmlv2](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 1 | 100% |
 | SmartHome | [sensmetry/smart-home-hub-example](https://github.com/sensmetry/smart-home-hub-example) | 3 | 100% |
-| **Total** | | **393** | **98.4% (387/393)** |
+| Apollo 11 | [airbus/apollo-11-sysml-v2](https://github.com/airbus/apollo-11-sysml-v2) | 28 | 100% |
+| **Total** | | **421** | **98.5% (415/421)** |
 
 > **Note:** These results reflect upstream corpora fetched on 2026-03-10. Pass rates
 > may change as upstream repositories are updated. The CI coverage job re-runs this

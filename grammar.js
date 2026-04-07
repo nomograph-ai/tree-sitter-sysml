@@ -2266,7 +2266,7 @@ module.exports = grammar({
       prec.left(seq($._unit_expression, choice('*', '/'), $._unit_expression)),
 
     unit_exponent: ($) =>
-      prec.left(2, seq($.qualified_name, '**', $.integer_literal)),
+      prec.left(2, seq($.qualified_name, choice('**', '^'), $.integer_literal)),
 
     new_expression: ($) =>
       seq('new', $.qualified_name, '(', optional(seq($._expression, repeat(seq(',', $._expression)))), ')'),

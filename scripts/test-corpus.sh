@@ -21,6 +21,7 @@ Corpora:
   library     OMG SysML v2 standard library (requires fetch-corpora.sh)
   sysmod      MBSE4U/sysmod-sysmlv2 (requires fetch-corpora.sh)
   smarthome   sensmetry/smart-home-hub-example (requires fetch-corpora.sh)
+  apollo11    airbus/apollo-11-sysml-v2 (requires fetch-corpora.sh)
   all         Run all available corpora
 
 Options:
@@ -96,6 +97,9 @@ get_corpus_path() {
       ;;
     smarthome)
       echo "$CORPORA_DIR/smarthome"
+      ;;
+    apollo11)
+      echo "$CORPORA_DIR/apollo11"
       ;;
     *)
       echo ""
@@ -234,7 +238,7 @@ main() {
   cd "$PROJECT_ROOT"
   
   if [[ "$corpus" == "all" ]]; then
-    local all_corpora=(training examples gfse advent validation library sysmod smarthome)
+    local all_corpora=(training examples gfse advent validation library sysmod smarthome apollo11)
     local results=()
     local grand_total=0
     local grand_pass=0
