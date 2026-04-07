@@ -136,9 +136,8 @@ publish-pypi:
 
 pages:
   stage: pages
-  image: emscripten/emsdk:latest
+  image: registry.gitlab.com/nomograph/pipeline/tree-sitter:latest
   before_script:
-    - apt-get update && apt-get install -y nodejs npm
     - npm ci
   script:
     - npx tree-sitter build --wasm
