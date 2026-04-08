@@ -16,27 +16,24 @@ SysML v2 replaces the diagram-centric SysML v1 with a **textual notation** desig
 
 ## Why This Exists
 
-SysML v2 is a large language — roughly 120 grammar rules covering packages, definitions, usages, constraints, requirements, state machines, actions, flows, views, and more. The only existing parser is the [Xtext-based pilot implementation](https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation) from the OMG, which is tightly coupled to Eclipse.
+SysML v2 is a large language -- the grammar covers packages, definitions, usages, constraints, requirements, state machines, actions, flows, views, and more. The only existing parser is the [Xtext-based pilot implementation](https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation) from the OMG, which is tightly coupled to Eclipse.
 
-This tree-sitter grammar provides a **standalone, incremental parser** with no IDE dependency. Our primary use case is embedding it in **Rust CLI tools and MCP (Model Context Protocol) servers** for AI-assisted systems engineering — but it works anywhere tree-sitter does: Neovim, Helix, Zed, VS Code, Emacs, and any application using the tree-sitter C library.
+This tree-sitter grammar provides a **standalone, incremental parser** with no IDE dependency. Our primary use case is embedding it in **Rust CLI tools and MCP (Model Context Protocol) servers** for AI-assisted systems engineering -- but it works anywhere tree-sitter does: Neovim, Helix, Zed, VS Code, Emacs, and any application using the tree-sitter C library.
 
 ## Status
 
-Parse coverage is tested on every push against 421 real-world SysML v2 files from 9 independent sources (see badge above).
+Parse coverage is tested on every push against real-world SysML v2 files from multiple independent sources (see badge above).
 
 | Metric | Value |
 |--------|-------|
-| Corpus Tests | 192 passing |
-| Negative Tests | 18 (12 syntactic, 6 structural) |
-| External File Coverage | 421 files across 9 corpora |
 | Bindings | C, Rust, Go, Python, Node.js, Swift |
 | Queries | highlights, tags, locals, folds, indents |
 
-See [parse-coverage.md](docs/parse-coverage.md) for per-corpus breakdown and details on any unparseable files.
+See [parse-coverage.md](docs/parse-coverage.md) for per-corpus breakdown, test counts, and details on any unparseable files.
 
 ## How the Corpus Was Assembled
 
-Most tree-sitter grammars have the luxury of millions of open-source files to test against. SysML v2 does not — the language was published in 2023 and adoption is early. We assembled test material from every public source we could find:
+Most tree-sitter grammars have the luxury of millions of open-source files to test against. SysML v2 does not -- the language was published in 2023 and adoption is early. We assembled test material from every public source we could find:
 
 | Source | Files | Description |
 |--------|-------|-------------|
@@ -51,9 +48,9 @@ Most tree-sitter grammars have the luxury of millions of open-source files to te
 | [Apollo 11](https://github.com/airbus/apollo-11-sysml-v2) | 28 | Airbus CoSMA framework -- 5 architectural layers, largest public real-world SysML v2 model |
 | **Total** | **421** | |
 
-The training files were the development target — every grammar change was validated against all 100 training files. The remaining corpora serve as independent validation: the grammar was never specifically tuned to pass them, so their pass rate reflects genuine generalization.
+The training files were the development target -- every grammar change was validated against all training files. The remaining corpora serve as independent validation: the grammar was never specifically tuned to pass them, so their pass rate reflects genuine generalization.
 
-**We need more corpus.** If you have SysML v2 files (from coursework, research, industry projects, or personal experiments), we would love to test against them. Even files that break the parser are valuable — especially those. See [Contributing](#contributing).
+**We need more corpus.** If you have SysML v2 files (from coursework, research, industry projects, or personal experiments), we would love to test against them. Even files that break the parser are valuable -- especially those. See [Contributing](#contributing).
 
 ## Grammar Approach
 
@@ -70,7 +67,7 @@ This "brute-force" loop ran for hundreds of iterations. The result is a grammar 
 
 ### Trade-offs
 
-**Over-acceptance (deliberate).** The grammar does not enforce context-sensitive body rules. For example, a `control_node` (only valid inside action bodies) will parse without error inside a `part` body. This keeps the grammar simpler and more resilient to spec evolution, at the cost of accepting some invalid programs. Editors and linters should handle semantic validation — the parser's job is to produce a usable tree.
+**Over-acceptance (deliberate).** The grammar does not enforce context-sensitive body rules. For example, a `control_node` (only valid inside action bodies) will parse without error inside a `part` body. This keeps the grammar simpler and more resilient to spec evolution, at the cost of accepting some invalid programs. Editors and linters should handle semantic validation -- the parser's job is to produce a usable tree.
 
 **Flat member lists.** Rather than maintaining separate member type lists for structural vs. behavioral contexts (which the spec requires), every body accepts a unified `_usage_member` rule. This avoids exponential conflict growth in the LR parse table.
 
@@ -80,12 +77,12 @@ This "brute-force" loop ran for hundreds of iterations. The result is a grammar 
 
 Almost certainly. Some ideas we haven't tried:
 
-- **Derive the grammar from the KEBNF** — The SysML v2 specification includes a formal grammar in KEBNF notation. A careful translation to tree-sitter rules could produce a more precise parser, but KEBNF uses features (like ordered alternation) that don't map directly to tree-sitter's GLR parser.
-- **Use an external scanner** — For constructs like implicit action bodies (brace-less blocks), an external scanner could maintain context state. We avoided this to keep the grammar self-contained.
-- **Context-sensitive body rules** — Separate member lists per body type (structural, behavioral, etc.) would reject more invalid syntax but at significant grammar complexity cost.
-- **Hybrid approach** — Use the empirical grammar as a baseline, then systematically tighten it against the KEBNF rule by rule.
+- **Derive the grammar from the KEBNF** -- The SysML v2 specification includes a formal grammar in KEBNF notation. A careful translation to tree-sitter rules could produce a more precise parser, but KEBNF uses features (like ordered alternation) that don't map directly to tree-sitter's GLR parser.
+- **Use an external scanner** -- For constructs like implicit action bodies (brace-less blocks), an external scanner could maintain context state. We avoided this to keep the grammar self-contained.
+- **Context-sensitive body rules** -- Separate member lists per body type (structural, behavioral, etc.) would reject more invalid syntax but at significant grammar complexity cost.
+- **Hybrid approach** -- Use the empirical grammar as a baseline, then systematically tighten it against the KEBNF rule by rule.
 
-If you have experience with tree-sitter grammars for large languages and want to suggest improvements to the approach, we'd welcome the discussion. Open an issue.
+If you have experience with tree-sitter grammars for large languages and want to suggest improvements to the approach, we welcome the discussion. Open an issue.
 
 ## Construct Coverage
 
@@ -207,7 +204,7 @@ print(tree.root_node.sexp())
 
 ```
 tree-sitter-sysml/
-├── grammar.js              # The grammar definition (~2400 lines)
+├── grammar.js              # The grammar definition
 ├── src/
 │   ├── parser.c            # Generated parser (do not edit)
 │   ├── grammar.json        # Generated grammar metadata
@@ -220,7 +217,7 @@ tree-sitter-sysml/
 │   ├── folds.scm           # Code folding regions
 │   └── indents.scm         # Auto-indentation rules
 ├── test/
-│   ├── corpus/             # 192 tree-sitter corpus tests
+│   ├── corpus/             # tree-sitter corpus tests
 │   │   ├── actions.txt     #   Control flow, send, accept, assign
 │   │   ├── attributes.txt  #   Attribute definitions and usages
 │   │   ├── calculations.txt#   Calc definitions with return
@@ -236,10 +233,10 @@ tree-sitter-sysml/
 │   │   ├── successions.txt #   First/then succession chains
 │   │   ├── usages.txt      #   All usage types
 │   │   └── views.txt       #   Views, viewpoints, rendering
-│   └── invalid/            # 18 negative tests (should fail to parse)
-│       ├── syntactic/      #   12 tests: bad tokens, missing delimiters
-│       └── structural/     #   6 tests: wrong nesting contexts
-├── examples/               # 5 curated SysML v2 example files
+│   └── invalid/            # negative tests (should fail to parse)
+│       ├── syntactic/      #   bad tokens, missing delimiters
+│       └── structural/     #   wrong nesting contexts
+├── examples/               # curated SysML v2 example files
 │   ├── vehicle.sysml       #   Part definitions, attributes, ports
 │   ├── requirements.sysml  #   Requirements with satisfy/verify
 │   ├── state-machine.sysml #   State definitions with transitions
@@ -286,8 +283,8 @@ tree-sitter-sysml/
 git clone https://gitlab.com/nomograph/tree-sitter-sysml.git
 cd tree-sitter-sysml
 npm install
-npx tree-sitter generate   # ~2 minutes — the grammar is large
-npx tree-sitter test        # 192 tests
+npx tree-sitter generate   # takes a few minutes -- the grammar is large
+npx tree-sitter test
 ```
 
 ### Parse a File
@@ -319,7 +316,7 @@ require('nvim-treesitter.parsers').get_parser_configs().sysml = {
   install_info = {
     url = 'https://gitlab.com/nomograph/tree-sitter-sysml',
     files = { 'src/parser.c' },
-    branch = 'master',
+    branch = 'main',
   },
   filetype = 'sysml',
 }
@@ -342,7 +339,7 @@ This grammar was built to power a Rust-based CLI and [Model Context Protocol](ht
 3. **Serve** that information to LLMs through MCP, enabling AI assistants to understand and reason about system models
 4. **Generate** SysML v2 from natural language descriptions, with the parser validating output
 
-The Rust binding (`tree-sitter-sysml` crate) is the primary integration point. The grammar's over-accepting nature is actually an advantage here — when AI generates SysML, a lenient parser that produces a usable tree (even for slightly malformed output) is more useful than a strict parser that rejects it entirely.
+The Rust binding (`tree-sitter-sysml` crate) is the primary integration point. The grammar's over-accepting nature is actually an advantage here -- when AI generates SysML, a lenient parser that produces a usable tree (even for slightly malformed output) is more useful than a strict parser that rejects it entirely.
 
 ## Contributing
 
@@ -350,7 +347,7 @@ Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed g
 
 ### What We Need Most
 
-**More corpus files.** The biggest risk to this grammar is constructs we haven't seen. If you have SysML v2 files — from any source — please share them (or point us to public repositories). Files that break the parser are especially valuable.
+**More corpus files.** The biggest risk to this grammar is constructs we haven't seen. If you have SysML v2 files -- from any source -- please share them (or point us to public repositories). Files that break the parser are especially valuable.
 
 To test your files against the grammar:
 
@@ -360,7 +357,7 @@ npx tree-sitter parse your-file.sysml
 
 If it produces an ERROR node, please open an issue with the file (or a minimal reproducing snippet).
 
-**Negative tests.** We have 18 tests for syntax that should be rejected. We need more — especially for:
+**Negative tests.** We have tests for syntax that should be rejected. We need more -- especially for:
 - Invalid nesting (definitions inside usages, behavioral constructs in structural contexts)
 - Malformed expressions
 - Edge cases around keyword-as-identifier ambiguity
@@ -382,7 +379,7 @@ If it produces an ERROR node, please open an issue with the file (or a minimal r
 ## Known Limitations
 
 - **Over-acceptance**: Any member type parses in any body context (see [Grammar Approach](#grammar-approach))
-- **6 unparseable files**: 2 intentionally unsupported, 4 regressions from OMG 2026-02 release (see [parse-coverage.md](docs/parse-coverage.md))
+- **Unparseable files**: A small number remain -- some intentionally unsupported, some regressions from upstream spec changes (see [parse-coverage.md](docs/parse-coverage.md))
 - **No semantic validation**: The parser checks syntax, not type correctness or constraint satisfaction
 - **Expression precedence**: Approximated with left-association, may differ from spec in edge cases
 - **Keyword-as-identifier**: Most cases handled, but some ambiguity remains (see [parse-coverage.md](docs/parse-coverage.md))
@@ -405,7 +402,7 @@ MIT
 
 ## Author
 
-Andrew Dunn — [Nomograph Labs](https://gitlab.com/nomograph)
+Andrew Dunn -- [Nomograph Labs](https://gitlab.com/nomograph)
 
 ---
 Built by Andrew Dunn, April 2026.
