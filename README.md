@@ -4,7 +4,7 @@
 
 [![pipeline](https://gitlab.com/nomograph/tree-sitter-sysml/badges/main/pipeline.svg)](https://gitlab.com/nomograph/tree-sitter-sysml/-/pipelines)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-![built with GitLab](https://img.shields.io/badge/built_with-GitLab-FC6D26?logo=gitlab)
+[![built with GitLab](https://img.shields.io/badge/built_with-GitLab-FC6D26?logo=gitlab)](https://gitlab.com/nomograph/tree-sitter-sysml)
 [![crates](https://img.shields.io/crates/v/tree-sitter-sysml?logo=rust)](https://crates.io/crates/tree-sitter-sysml)
 [![PyPI](https://img.shields.io/pypi/v/tree-sitter-sysml?logo=python)](https://pypi.org/project/tree-sitter-sysml/)
 [![npm](https://img.shields.io/npm/v/tree-sitter-sysml?logo=npm)](https://www.npmjs.com/package/tree-sitter-sysml)
