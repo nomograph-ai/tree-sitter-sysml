@@ -10,6 +10,9 @@
 #   - security templates: SAST + Dependency-Scanning + Secret-Detection
 #     (GitLab Ultimate features beyond the deps-scan gate).
 
+default:
+  tags: [storr]
+
 include:
   - template: Jobs/SAST.gitlab-ci.yml
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
