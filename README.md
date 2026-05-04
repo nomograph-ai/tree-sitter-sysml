@@ -404,7 +404,7 @@ MIT
 
 ## Author
 
-Andrew Dunn -- [Nomograph Labs](https://gitlab.com/nomograph)
+Part of [Nomograph Labs](https://nomograph.ai).
 
 ---
-Built by Andrew Dunn, April 2026.
+Part of [Nomograph Labs](https://nomograph.ai).
