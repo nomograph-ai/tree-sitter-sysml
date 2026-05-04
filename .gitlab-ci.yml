@@ -1,53 +1,46 @@
+# gitlab.com/nomograph/tree-sitter-sysml .gitlab-ci.yml
+#
+# Pipeline structure provided by nomograph/pipeline tree-sitter@v4.1.2
+# (gates + tree-sitter test + cargo/npm/pypi publish on tag).
+#
+# Custom jobs preserved for repo-specific concerns:
+#   - parse-coverage: fetches official SysML v2 corpora and measures
+#     parse coverage. Repo-specific scripts; not generalizable.
+#   - pages: builds the wasm playground for browser-side experimentation.
+#   - security templates: SAST + Dependency-Scanning + Secret-Detection
+#     (GitLab Ultimate features beyond the deps-scan gate).
+
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+  - component: gitlab.com/nomograph/pipeline/tree-sitter@v4.1.2
+    inputs:
+      grammar_name: tree-sitter-sysml
+      publish_targets: "cargo,npm,pypi"
+
+variables:
+  NOMOGRAPH_REGISTRY: registry.gitlab.com/nomograph/pipeline
+
 stages:
+  - lint
   - test
   - coverage
   - security
   - publish
+  - release
   - pages
 
-default:
-  image: node:22-trixie
-  tags:
-    - storr
+# Override security template stages to land in the security stage.
+sast: { stage: security }
+dependency_scanning: { stage: security }
+secret_detection: { stage: security }
 
-# ============================================================================
-# Test Stage
-# ============================================================================
-
-tree-sitter-test:
-  stage: test
-  before_script:
-    - npm ci
-  script:
-    - npx tree-sitter test 2>&1 | tee test-output.txt
-    - |
-      total=$(grep -c '✓' test-output.txt || echo "0")
-      echo "Corpus coverage: 100%"
-      echo "Tests passed: $total"
-  coverage: '/Corpus coverage: (\d+)%/'
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
-rust-test:
-  stage: test
-  image: rust:1.85
-  cache:
-    key: rust-${CI_COMMIT_REF_SLUG}
-    paths:
-      - target/
-  script:
-    - cargo test --all-features
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
-# ============================================================================
-# Coverage Stage - Parse official SysML v2 training files
-# ============================================================================
-
+# Repo-specific corpus-based parse coverage. Fetches official SysML v2
+# training files and measures error rate via test-corpus.sh.
 parse-coverage:
   stage: coverage
+  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v4.1.2
   before_script:
     - npm ci
     - npm install -g tree-sitter-cli
@@ -65,78 +58,10 @@ parse-coverage:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-# ============================================================================
-# Security Stage (GitLab Ultimate)
-# ============================================================================
-
-include:
-  - template: Jobs/SAST.gitlab-ci.yml
-  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
-  - template: Jobs/Secret-Detection.gitlab-ci.yml
-
-sast:
-  stage: security
-
-dependency_scanning:
-  stage: security
-
-secret_detection:
-  stage: security
-
-# ============================================================================
-# Publish Stage — triggered by version tags (v*)
-# ============================================================================
-
-publish-crates:
-  stage: publish
-  image: rust:1.85
-  script:
-    - cargo publish --no-verify
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/
-
-publish-npm:
-  stage: publish
-  image: node:24
-  id_tokens:
-    NPM_ID_TOKEN:
-      aud: "npm:registry.npmjs.org"
-    SIGSTORE_ID_TOKEN:
-      aud: sigstore
-  script:
-    - |
-      if [ -z "$NPM_TOKEN" ]; then
-        echo "Using OIDC trusted publishing"
-      else
-        echo "Using NPM_TOKEN (first publish or fallback)"
-        echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-      fi
-    - npm publish
-  after_script:
-    - rm -f .npmrc
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/
-
-publish-pypi:
-  stage: publish
-  image: python:3.12
-  id_tokens:
-    PYPI_ID_TOKEN:
-      aud: pypi
-  script:
-    - pip install -U build twine
-    - python -m build --sdist
-    - twine upload --verbose dist/*
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/
-
-# ============================================================================
-# Pages - Tree-sitter Playground
-# ============================================================================
-
+# Wasm playground for browser-side grammar experimentation.
 pages:
   stage: pages
-  image: registry.gitlab.com/nomograph/pipeline/tree-sitter:latest
+  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v4.1.2
   before_script:
     - npm ci
   script:
