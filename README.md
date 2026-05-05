@@ -12,6 +12,8 @@
 
 [Tree-sitter](https://tree-sitter.github.io/) grammar for [SysML v2](https://www.omg.org/spec/SysML/2.0/), the next-generation systems modeling language from the OMG.
 
+## What it is
+
 SysML v2 replaces the diagram-centric SysML v1 with a **textual notation** designed for Model-Based Systems Engineering (MBSE). This parser turns that textual notation into concrete syntax trees that editors, linters, and developer tools can consume.
 
 ## Why This Exists
@@ -402,7 +404,7 @@ MIT
 
 ## Author
 
-Andrew Dunn -- [Nomograph Labs](https://gitlab.com/nomograph)
+Part of [Nomograph Labs](https://nomograph.ai).
 
 ---
-Built by Andrew Dunn, April 2026.
+Part of [Nomograph Labs](https://nomograph.ai).
