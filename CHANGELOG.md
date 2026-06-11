@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 
+- ESA CDF Reference Data Library corpus (1 file, via Sysand kpar with SHA256
+  verification) to external coverage suite -- suggested by Axel Widenfelt in #1
 - SmartHome corpus (3 files) to external coverage suite
 - `fetch-corpora.sh` now fetches Training and Examples corpora from GitHub (no longer requires local fixtures)
 - 192 corpus tests (up from 125), covering all major SysML v2 construct types
@@ -30,7 +32,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 
-- External coverage: 387/393 (98.4%) across 8 corpora including SmartHome (tested 2026-03-10)
+- External coverage: 412/424 (97.2%) across 10 corpora (tested 2026-06-11,
+  tree-sitter 0.25.10); previous snapshots: 415/421 (98.5%) across 9 corpora
+  and 387/393 (98.4%) across 8 corpora (2026-03-10). Six new failures come
+  from 2026 OMG additions (cast-in-filter constructs)
+- `test-corpus.sh` hardened: a file now FAILS on any abnormal `tree-sitter
+  parse` exit or loader error (e.g. grammar ABI mismatch), not only on
+  `(ERROR` nodes -- previously an incompatible CLI could silently mark every
+  file as passing
 - `test-corpus.sh` now uses fetched corpora paths instead of local fixtures; uses `tree-sitter` directly instead of `npx tree-sitter`
 - `test-corpus.sh` prints grand total summary when running `all` corpora
 

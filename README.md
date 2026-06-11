@@ -45,10 +45,11 @@ Most tree-sitter grammars have the luxury of millions of open-source files to te
 | [OMG Standard Library](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml.library/` | 58 | Library definitions (KerML + SysML base types) |
 | [Sensmetry Advent](https://github.com/sensmetry/advent-of-sysml-v2) | 44 | Community examples from "Advent of SysML v2" |
 | [GfSE Models](https://github.com/GfSE/SysML-v2-Models) | 36 | German systems engineering society models |
-| [SYSMOD](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 1 | SYSMOD methodology example |
+| [SYSMOD](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 3 | SYSMOD methodology example |
 | [Sensmetry SmartHome](https://github.com/sensmetry/smart-home-hub-example) | 3 | Smart home hub example |
 | [Apollo 11](https://github.com/airbus/apollo-11-sysml-v2) | 28 | Airbus CoSMA framework -- 5 architectural layers, largest public real-world SysML v2 model |
-| **Total** | **421** | |
+| [ESA CDF RDL](https://sysand.com/projects/esa/cdf-reference-data-library/) | 1 | ESA Concurrent Design Facility Reference Data Library (via Sysand) |
+| **Total** | **424** | |
 
 The training files were the development target -- every grammar change was validated against all training files. The remaining corpora serve as independent validation: the grammar was never specifically tuned to pass them, so their pass rate reflects genuine generalization.
 
