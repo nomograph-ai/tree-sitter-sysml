@@ -690,3 +690,33 @@ attribute x = y as Integer;
             (name
               (identifier))))))
     (usage_body)))
+
+================================================================================
+Self cast in filter expression
+================================================================================
+
+package P {
+	filter @Safety and (as Safety).isMandatory;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (filter_statement
+        (binary_expression
+          (metadata_access_expression
+            (qualified_name
+              (name
+                (identifier))))
+          (feature_chain_expression
+            (self_cast_expression
+              (qualified_name
+                (name
+                  (identifier))))
+            (name
+              (identifier))))))))

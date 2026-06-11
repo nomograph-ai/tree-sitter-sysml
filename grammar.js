@@ -1516,10 +1516,16 @@ module.exports = grammar({
       seq(
         repeat($.prefix_metadata),
         optional($.visibility),
-        optional('enum'),
-        $.name,
-        optional($.typing_part),
-        optional($.value_part),
+        choice(
+          seq(
+            optional('enum'),
+            $.name,
+            optional($.typing_part),
+            optional($.value_part),
+          ),
+          // Anonymous enum member (2026 Annex A): `enum = 80 [mm];`
+          seq('enum', $.value_part),
+        ),
         choice(
           ';',
           seq('{', repeat($._enum_member_content), '}'),
@@ -1937,6 +1943,13 @@ module.exports = grammar({
               optional($.typing_part),
               $.usage_body,
             ),
+            // Named assert constraint with bare expression body (no trailing
+            // semicolon): `assert constraint c { x <= y }`
+            seq(
+              $.identification,
+              optional($.typing_part),
+              '{', repeat($._usage_member), $._expression, '}',
+            ),
             seq($.qualified_name, $.usage_body),
             $.constraint_body,
           ),
@@ -2220,6 +2233,7 @@ module.exports = grammar({
         $.range_expression,
         $.conditional_expression,
         $.cast_expression,
+        $.self_cast_expression,
       ),
 
     conditional_expression: ($) =>
@@ -2344,6 +2358,13 @@ module.exports = grammar({
 
     cast_expression: ($) =>
       prec.left(2, seq($._expression, 'as', $.qualified_name)),
+
+    // Self-referential cast (2026 OMG additions), e.g. inside filter
+    // expressions: `filter @Safety and (as Safety).isMandatory;`
+    // The cast applies to the implicit annotated element, so it has no
+    // left operand. Only the parenthesized form appears in the corpora.
+    self_cast_expression: ($) =>
+      seq('(', 'as', $.qualified_name, ')'),
 
     // =========================================================================
     // Literals

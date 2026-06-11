@@ -235,3 +235,34 @@ part p {
           (name
             (identifier)))
         (usage_body)))))
+
+================================================================================
+Named assert constraint with bare expression body
+================================================================================
+
+part def FuelTank {
+	assert constraint fuelConstraint { fuel.fuelMass <= fuelMassMax }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (assert_statement
+        (identification
+          (name
+            (identifier)))
+        (binary_expression
+          (feature_chain_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (name
+              (identifier)))
+          (qualified_name
+            (name
+              (identifier))))))))
