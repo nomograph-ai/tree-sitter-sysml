@@ -1,10 +1,15 @@
 # Parse Coverage Report
 
-Last updated: 2026-03-10
+Last updated: 2026-06-11
 
 ## Summary
 
-**415 / 421 files parse without errors (98.5%)**
+**412 / 424 files parse without errors (97.2%)**
+
+Tested with tree-sitter 0.25.10 against upstream corpora fetched 2026-06-11.
+The previous snapshot (2026-03-10) measured 415/421 (98.5%); coverage moved
+because upstream corpora added new files and constructs (six new failures, all
+in the 2026 OMG additions), while one corpus (ESA CDF RDL) was added at 100%.
 
 This grammar was developed empirically against real SysML v2 files from multiple
 sources. It uses an over-accepting strategy: the grammar accepts all valid SysML v2
@@ -15,22 +20,39 @@ trade-off is documented in the [limitations](#known-limitations) section.
 
 | Corpus | Source | Files | Pass Rate |
 |--------|--------|-------|-----------|
-| Training | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/training/` | 100 | 100% |
-| Examples | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/examples/` | 95 | 98.9% (94/95) |
+| Training | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/training/` | 100 | 98.0% (98/100) |
+| Examples | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/examples/` | 95 | 97.8% (93/95) |
 | GfSE | [GfSE/SysML-v2-Models](https://github.com/GfSE/SysML-v2-Models) | 36 | 97.2% (35/36) |
 | Advent | [sensmetry/advent-of-sysml-v2](https://github.com/sensmetry/advent-of-sysml-v2) | 44 | 100% |
-| Validation | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/validation/` | 56 | 100% |
+| Validation | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/validation/` | 56 | 94.6% (53/56) |
 | Library | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml.library/` | 58 | 93.1% (54/58) |
-| SYSMOD | [MBSE4U/sysmod-sysmlv2](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 1 | 100% |
+| SYSMOD | [MBSE4U/sysmod-sysmlv2](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 3 | 100% |
 | SmartHome | [sensmetry/smart-home-hub-example](https://github.com/sensmetry/smart-home-hub-example) | 3 | 100% |
 | Apollo 11 | [airbus/apollo-11-sysml-v2](https://github.com/airbus/apollo-11-sysml-v2) | 28 | 100% |
-| **Total** | | **421** | **98.5% (415/421)** |
+| CDF RDL | [ESA CDF Reference Data Library](https://sysand.com/projects/esa/cdf-reference-data-library/) (Sysand, ESA-PL-permissive-2.4) | 1 | 100% |
+| **Total** | | **424** | **97.2% (412/424)** |
 
-> **Note:** These results reflect upstream corpora fetched on 2026-03-10. Pass rates
-> may change as upstream repositories are updated. The CI coverage job re-runs this
-> suite on every push to `main` and updates the coverage badge automatically.
+> **Note:** These results reflect upstream corpora fetched on 2026-06-11, tested
+> with tree-sitter 0.25.10. Pass rates may change as upstream repositories are
+> updated. The CI coverage job re-runs this suite on every push to `main` and
+> updates the coverage badge automatically.
 
 ## Unparseable Files
+
+### New in the 2026-06 upstream snapshot (6 files)
+
+All six share constructs introduced by the 2026 OMG additions; four are one
+construct family -- postfix casts inside filter expressions
+(`filter @Safety and (as Safety).isMandatory;`):
+
+| File | Corpus | Error | Root Cause |
+|------|--------|-------|------------|
+| `40. Filtering/Filtering Example-1.sysml` | Training | `ERROR [34, 22]` | cast in filter expression (`(as Safety)`) |
+| `40. Filtering/Filtering Example-2.sysml` | Training | filter family | cast in filter expression |
+| `Vehicle Example/...SimpleVehicleModel.sysml` | Examples | `ERROR [1538, 32]` | 2026 Annex A additions |
+| `11b-Safety and Security Feature Views.sysml` | Validation | `ERROR [56, 23]` | cast in filter expression |
+| `13b-...Element Group-1.sysml` | Validation | `ERROR [53, 22]` | cast in filter expression |
+| `13b-...Element Group-2.sysml` | Validation | filter family | cast in filter expression |
 
 ### Regressions (4 files)
 

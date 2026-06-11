@@ -101,6 +101,9 @@ get_corpus_path() {
     apollo11)
       echo "$CORPORA_DIR/apollo11"
       ;;
+    cdfrdl)
+      echo "$CORPORA_DIR/cdfrdl"
+      ;;
     *)
       echo ""
       ;;
@@ -238,7 +241,7 @@ main() {
   cd "$PROJECT_ROOT"
   
   if [[ "$corpus" == "all" ]]; then
-    local all_corpora=(training examples gfse advent validation library sysmod smarthome apollo11)
+    local all_corpora=(training examples gfse advent validation library sysmod smarthome apollo11 cdfrdl)
     local results=()
     local grand_total=0
     local grand_pass=0
