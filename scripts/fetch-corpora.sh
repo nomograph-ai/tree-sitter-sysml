@@ -27,6 +27,7 @@ Corpora:
   sysmod      MBSE4U/sysmod-sysmlv2 (GitHub)
   smarthome   sensmetry/smart-home-hub-example (GitHub)
   apollo11    airbus/apollo-11-sysml-v2 (GitHub)
+  cdfrdl      ESA CDF Reference Data Library (Sysand kpar)
   all         All corpora
 
 Examples:
@@ -145,6 +146,30 @@ fetch_apollo11() {
   local count
   count=$(find "$target" -name "*.sysml" | wc -l | tr -d ' ')
   echo "apollo11: Fetched $count .sysml files"
+}
+
+fetch_cdfrdl() {
+  local target="$CORPORA_DIR/cdfrdl"
+  local kpar_url="https://sysand.com/index/esa/cdf-reference-data-library/1.0.0/project.kpar"
+  local kpar_sha="2d6781f8cdf61417518e80deecd27d9a5656d93f6fec86000f222f417704ec67"
+  if [[ -d "$target" ]]; then
+    echo "cdfrdl: Already exists, skipping (use 'clean cdfrdl' first to re-fetch)"
+    return 0
+  fi
+
+  echo "cdfrdl: Downloading ESA CDF Reference Data Library 1.0.0 (Sysand)..."
+  mkdir -p "$target"
+  curl -fsSL -o "$target/project.kpar" "$kpar_url"
+  if command -v shasum >/dev/null 2>&1; then
+    echo "$kpar_sha  $target/project.kpar" | shasum -a 256 --check --quiet
+  else
+    echo "$kpar_sha  $target/project.kpar" | sha256sum --check --quiet
+  fi
+  unzip -q "$target/project.kpar" -d "$target"
+  rm "$target/project.kpar"
+  local count
+  count=$(find "$target" -name "*.sysml" | wc -l | tr -d ' ')
+  echo "cdfrdl: Fetched $count .sysml files"
 }
 
 fetch_training() {
@@ -279,6 +304,14 @@ show_status() {
   else
     echo "  apollo11: not fetched (run: ./scripts/fetch-corpora.sh apollo11)"
   fi
+
+  if [[ -d "$CORPORA_DIR/cdfrdl" ]]; then
+    local count
+    count=$(find "$CORPORA_DIR/cdfrdl" -name "*.sysml" 2>/dev/null | wc -l | tr -d ' ')
+    echo "  cdfrdl: $count files"
+  else
+    echo "  cdfrdl: not fetched (run: ./scripts/fetch-corpora.sh cdfrdl)"
+  fi
 }
 
 main() {
@@ -294,7 +327,7 @@ main() {
       --help|-h)
         usage
         ;;
-      training|examples|gfse|advent|validation|library|sysmod|smarthome|apollo11|all)
+      training|examples|gfse|advent|validation|library|sysmod|smarthome|apollo11|cdfrdl|all)
         corpora+=("$1")
         shift
         ;;
@@ -333,6 +366,7 @@ main() {
         fetch_sysmod
         fetch_smarthome
         fetch_apollo11
+        fetch_cdfrdl
       else
         for c in "${corpora[@]}"; do
           case "$c" in
@@ -345,6 +379,7 @@ main() {
             sysmod) fetch_sysmod ;;
             smarthome) fetch_smarthome ;;
             apollo11) fetch_apollo11 ;;
+            cdfrdl) fetch_cdfrdl ;;
           esac
         done
       fi
