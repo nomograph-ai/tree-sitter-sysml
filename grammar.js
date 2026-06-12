@@ -2291,9 +2291,15 @@ module.exports = grammar({
       choice(
         $.unit_binary,
         $.unit_exponent,
+        $.unit_index,
         $.qualified_name,
         $.integer_literal,
       ),
+
+    // Indexed measurement reference inside a unit bracket:
+    //   attribute x : LengthValue = num#(1) [mRef.mRefs#(1)];
+    unit_index: ($) =>
+      seq($.feature_chain, '#', '(', $._expression, ')'),
 
     unit_binary: ($) =>
       prec.left(seq($._unit_expression, choice('*', '/'), $._unit_expression)),

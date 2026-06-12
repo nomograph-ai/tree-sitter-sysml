@@ -759,3 +759,39 @@ part def P {
               (qualified_name
                 (name
                   (identifier))))))))))
+
+================================================================================
+Index expression with indexed unit bracket
+================================================================================
+
+attribute x : LengthValue = num#(1) [mRef.mRefs#(1)];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (value_part
+        (measurement_expression
+          (index_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (literal
+              (integer_literal)))
+          (unit_index
+            (feature_chain
+              (name
+                (identifier))
+              (name
+                (identifier)))
+            (literal
+              (integer_literal))))))
+    (usage_body)))

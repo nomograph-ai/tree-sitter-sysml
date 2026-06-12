@@ -14208,11 +14208,40 @@
         },
         {
           "type": "SYMBOL",
+          "name": "unit_index"
+        },
+        {
+          "type": "SYMBOL",
           "name": "qualified_name"
         },
         {
           "type": "SYMBOL",
           "name": "integer_literal"
+        }
+      ]
+    },
+    "unit_index": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "feature_chain"
+        },
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
