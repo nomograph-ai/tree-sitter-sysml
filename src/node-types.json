@@ -3032,7 +3032,19 @@
           "named": true
         },
         {
+          "type": "identification",
+          "named": true
+        },
+        {
+          "type": "multiplicity",
+          "named": true
+        },
+        {
           "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "typing_part",
           "named": true
         }
       ]
@@ -8904,6 +8916,10 @@
           "named": true
         },
         {
+          "type": "select_parameter",
+          "named": true
+        },
+        {
           "type": "self_cast_expression",
           "named": true
         },
@@ -13134,11 +13150,34 @@
           "named": true
         },
         {
+          "type": "select_parameter",
+          "named": true
+        },
+        {
           "type": "self_cast_expression",
           "named": true
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "select_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "typing_part",
           "named": true
         }
       ]
@@ -18807,6 +18846,10 @@
   },
   {
     "type": "bind",
+    "named": false
+  },
+  {
+    "type": "binding",
     "named": false
   },
   {

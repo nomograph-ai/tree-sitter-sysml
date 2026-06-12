@@ -720,3 +720,42 @@ package P {
                   (identifier))))
             (name
               (identifier))))))))
+
+================================================================================
+Select body parameter without direction
+================================================================================
+
+part def P {
+	assert constraint { vertices->exists{p2 : Point; p1 != p2} }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (assert_statement
+        (constraint_body
+          (invocation_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (name
+              (identifier))
+            (select_parameter
+              (name
+                (identifier))
+              (typing_part
+                (qualified_name
+                  (name
+                    (identifier)))))
+            (binary_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))))))))

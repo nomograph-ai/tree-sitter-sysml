@@ -1600,9 +1600,21 @@ module.exports = grammar({
     // =========================================================================
     bind_statement: ($) =>
       seq(
+        // Optional named binding declaration (OMG 2026-02):
+        //   binding ab bind a = b;
+        //   binding ab1 : AB bind a = b;
+        //   binding [1] bind [0..*] base.edges = [0..*] be;
+        optional(seq(
+          'binding',
+          optional($.multiplicity),
+          optional($.identification),
+          optional($.typing_part),
+        )),
         'bind',
+        optional($.multiplicity),
         $.feature_chain,
         '=',
+        optional($.multiplicity),
         choice($.qualified_name, $.feature_chain),
         choice(';', seq('{', repeat(choice($.comment_statement, $.documentation)), '}')),
       ),
@@ -2253,8 +2265,14 @@ module.exports = grammar({
       choice(
         $.parameter_usage,
         $.attribute_usage,
+        $.select_parameter,
         $._expression,
       ),
+
+    // Parameter declaration without a direction keyword inside a
+    // select/iteration body: `vertices->exists{p2 : Point; ...}`
+    select_parameter: ($) =>
+      seq($.name, $.typing_part, ';'),
 
     index_expression: ($) =>
       prec.left(5, seq($._expression, '#', '(', $._expression, ')')),
