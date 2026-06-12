@@ -840,3 +840,76 @@ requirement def SafetyReq {
               (name
                 (identifier)))))))))
 
+================================================================================
+Derived ref item usage
+================================================================================
+
+metadata def AcceptActionUsage specializes ActionUsage {
+	derived ref item receiverArgument : Expression[0..1] subsets Metadata::metadataItems;
+	derived ref item payloadParameter : ReferenceUsage[1..1] subsets nestedReference, parameter subsets Metadata::metadataItems;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (metadata_definition
+    (identification
+      (name
+        (identifier)))
+    (definition_specialization
+      (qualified_name
+        (name
+          (identifier))))
+    (structural_body
+      (item_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier))))
+          (multiplicity
+            (multiplicity_bound
+              (integer_literal))
+            (multiplicity_bound
+              (integer_literal)))
+          (relationship_part
+            (subsetting_part
+              (qualified_name
+                (name
+                  (identifier))
+                (name
+                  (identifier))))))
+        (usage_body))
+      (item_usage
+        (usage_declaration
+          (identification
+            (name
+              (identifier)))
+          (typing_part
+            (qualified_name
+              (name
+                (identifier))))
+          (multiplicity
+            (multiplicity_bound
+              (integer_literal))
+            (multiplicity_bound
+              (integer_literal)))
+          (relationship_part
+            (subsetting_part
+              (feature_chain
+                (name
+                  (identifier)))
+              (feature_chain
+                (name
+                  (identifier)))))
+          (relationship_part
+            (subsetting_part
+              (qualified_name
+                (name
+                  (identifier))
+                (name
+                  (identifier))))))
+        (usage_body)))))

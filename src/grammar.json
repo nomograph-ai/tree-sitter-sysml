@@ -3099,6 +3099,18 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "STRING",
+              "value": "derived"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SYMBOL",
               "name": "port_direction"
             },

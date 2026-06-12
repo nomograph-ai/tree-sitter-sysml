@@ -702,6 +702,7 @@ module.exports = grammar({
         repeat($.prefix_metadata),
         optional($.visibility),
         optional('abstract'),
+        optional('derived'),
         optional($.port_direction),
         optional('ref'),
         optional('individual'),
