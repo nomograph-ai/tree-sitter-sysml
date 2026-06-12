@@ -8,6 +8,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 
+- 2026 OMG construct support (8 grammar extensions, +10 external files):
+  - `self_cast_expression` for postfix casts with an implicit operand in
+    filter expressions: `filter @Safety and (as Safety).isMandatory;`
+  - anonymous enum members with values: `enum = 80 [mm];`
+  - named assert constraint with bare expression body:
+    `assert constraint c { x <= y }`
+  - named bindings with identification, typing, and multiplicity
+    (OMG 2026-02): `binding ab : AB bind a = b;`,
+    `binding [1] bind [0..*] base.edges = [0..*] be;`
+  - `select_parameter` for direction-less parameter declarations in
+    select/iteration bodies: `vertices->exists{p2 : Point; ...}`
+  - `derived` modifier on item usages:
+    `derived ref item x : Expression[0..1] subsets ...;`
+  - `unit_index` for indexed measurement references in unit brackets:
+    `num#(1) [mRef.mRefs#(1)]`
+- 8 new internal corpus tests for the constructs above (200 total)
 - ESA CDF Reference Data Library corpus (1 file, via Sysand kpar with SHA256
   verification) to external coverage suite -- suggested by Axel Widenfelt in #1
 - SmartHome corpus (3 files) to external coverage suite
@@ -32,10 +48,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 
-- External coverage: 412/424 (97.2%) across 10 corpora (tested 2026-06-11,
-  tree-sitter 0.25.10); previous snapshots: 415/421 (98.5%) across 9 corpora
-  and 387/393 (98.4%) across 8 corpora (2026-03-10). Six new failures come
-  from 2026 OMG additions (cast-in-filter constructs)
+- External coverage: 422/424 (99.5%) across 10 corpora (tested 2026-06-11,
+  tree-sitter 0.25.10); up from 412/424 (97.2%) on the same snapshot after
+  the 2026 OMG construct support above. The two remaining failures are the
+  documented intentional limitations (EIT_System_Use_Cases.sysml UML
+  constructs; Actions.sysml implicit action bodies). Previous snapshots:
+  415/421 (98.5%) across 9 corpora and 387/393 (98.4%) across 8 corpora
+  (2026-03-10)
 - `test-corpus.sh` hardened: a file now FAILS on any abnormal `tree-sitter
   parse` exit or loader error (e.g. grammar ABI mismatch), not only on
   `(ERROR` nodes -- previously an incompatible CLI could silently mark every

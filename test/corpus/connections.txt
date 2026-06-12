@@ -315,3 +315,80 @@ part def Test {
         (feature_chain
           (name
             (identifier)))))))
+
+================================================================================
+Named binding
+================================================================================
+
+part def P {
+	binding ab bind a = b;
+	binding ab1 : AB bind a = b;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (bind_statement
+        (identification
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier))))
+      (bind_statement
+        (identification
+          (name
+            (identifier)))
+        (typing_part
+          (qualified_name
+            (name
+              (identifier))))
+        (feature_chain
+          (name
+            (identifier)))
+        (feature_chain
+          (name
+            (identifier)))))))
+
+================================================================================
+Binding with multiplicity
+================================================================================
+
+part def P {
+	binding [1] bind [0..*] base.edges = [0..*] be;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (bind_statement
+        (multiplicity
+          (multiplicity_bound
+            (integer_literal)))
+        (multiplicity
+          (multiplicity_bound
+            (integer_literal)))
+        (feature_chain
+          (name
+            (identifier))
+          (name
+            (identifier)))
+        (multiplicity
+          (multiplicity_bound
+            (integer_literal)))
+        (feature_chain
+          (name
+            (identifier)))))))

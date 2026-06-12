@@ -4,12 +4,15 @@ Last updated: 2026-06-11
 
 ## Summary
 
-**412 / 424 files parse without errors (97.2%)**
+**422 / 424 files parse without errors (99.5%)**
 
 Tested with tree-sitter 0.25.10 against upstream corpora fetched 2026-06-11.
-The previous snapshot (2026-03-10) measured 415/421 (98.5%); coverage moved
-because upstream corpora added new files and constructs (six new failures, all
-in the 2026 OMG additions), while one corpus (ESA CDF RDL) was added at 100%.
+The previous measurement on the same snapshot was 412/424 (97.2%); the ten
+additional files were fixed by supporting the 2026 OMG construct additions
+(self-casts in filter expressions, anonymous enum members, bare assert
+constraint bodies, named bindings) plus four older grammar gaps. The two
+remaining failures are the documented
+[intentionally unsupported](#intentionally-unsupported-2-files) files.
 
 This grammar was developed empirically against real SysML v2 files from multiple
 sources. It uses an over-accepting strategy: the grammar accepts all valid SysML v2
@@ -20,17 +23,17 @@ trade-off is documented in the [limitations](#known-limitations) section.
 
 | Corpus | Source | Files | Pass Rate |
 |--------|--------|-------|-----------|
-| Training | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/training/` | 100 | 98.0% (98/100) |
-| Examples | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/examples/` | 95 | 97.8% (93/95) |
+| Training | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/training/` | 100 | 100% |
+| Examples | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/examples/` | 95 | 100% |
 | GfSE | [GfSE/SysML-v2-Models](https://github.com/GfSE/SysML-v2-Models) | 36 | 97.2% (35/36) |
 | Advent | [sensmetry/advent-of-sysml-v2](https://github.com/sensmetry/advent-of-sysml-v2) | 44 | 100% |
-| Validation | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/validation/` | 56 | 94.6% (53/56) |
-| Library | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml.library/` | 58 | 93.1% (54/58) |
+| Validation | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml/src/validation/` | 56 | 100% |
+| Library | [OMG SysML v2 Release](https://github.com/Systems-Modeling/SysML-v2-Release) `sysml.library/` | 58 | 98.2% (57/58) |
 | SYSMOD | [MBSE4U/sysmod-sysmlv2](https://github.com/MBSE4U/sysmod-sysmlv2-models) | 3 | 100% |
 | SmartHome | [sensmetry/smart-home-hub-example](https://github.com/sensmetry/smart-home-hub-example) | 3 | 100% |
 | Apollo 11 | [airbus/apollo-11-sysml-v2](https://github.com/airbus/apollo-11-sysml-v2) | 28 | 100% |
 | CDF RDL | [ESA CDF Reference Data Library](https://sysand.com/projects/esa/cdf-reference-data-library/) (Sysand, ESA-PL-permissive-2.4) | 1 | 100% |
-| **Total** | | **424** | **97.2% (412/424)** |
+| **Total** | | **424** | **99.5% (422/424)** |
 
 > **Note:** These results reflect upstream corpora fetched on 2026-06-11, tested
 > with tree-sitter 0.25.10. Pass rates may change as upstream repositories are
@@ -39,49 +42,21 @@ trade-off is documented in the [limitations](#known-limitations) section.
 
 ## Unparseable Files
 
-### New in the 2026-06 upstream snapshot (6 files)
+### Recently Fixed (2026-06)
 
-All six share constructs introduced by the 2026 OMG additions; four are one
-construct family -- postfix casts inside filter expressions
-(`filter @Safety and (as Safety).isMandatory;`):
+The ten files that failed in the previous 412/424 measurement now parse.
+The constructs added to the grammar:
 
-| File | Corpus | Error | Root Cause |
-|------|--------|-------|------------|
-| `40. Filtering/Filtering Example-1.sysml` | Training | `ERROR [34, 22]` | cast in filter expression (`(as Safety)`) |
-| `40. Filtering/Filtering Example-2.sysml` | Training | filter family | cast in filter expression |
-| `Vehicle Example/...SimpleVehicleModel.sysml` | Examples | `ERROR [1538, 32]` | 2026 Annex A additions |
-| `11b-Safety and Security Feature Views.sysml` | Validation | `ERROR [56, 23]` | cast in filter expression |
-| `13b-...Element Group-1.sysml` | Validation | `ERROR [53, 22]` | cast in filter expression |
-| `13b-...Element Group-2.sysml` | Validation | filter family | cast in filter expression |
-
-### Regressions (4 files)
-
-These files fail due to grammar gaps exposed by the OMG 2026-02 release or
-constructs not previously encountered in the corpus.
-
-| File | Corpus | Error | Root Cause |
-|------|--------|-------|------------|
-| `Simple Tests/ConnectionTest.sysml` | Examples | `ERROR [22, 2]` | Named binding syntax (`binding ab bind a = b;`) |
-| `Geometry/ShapeItems.sysml` | Library | `ERROR [431, 10]` | Multiplicity on binding keyword (`binding [1] bind [0..*] ...`) |
-| `Quantities and Units/ISQSpaceTime.sysml` | Library | `ERROR [323, 59]` | Index expression followed by unit bracket (`num#(1) [mRef...]`) |
-| `Systems Library/SysML.sysml` | Library | `ERROR [13, 3]` | Chained specialization with `subsets` after multiplicity in metadata defs |
-
-**ConnectionTest.sysml** — Added in the OMG 2026-02 release. The anonymous
-`bind a = b;` form parses correctly, but the named form `binding ab bind a = b;`
-uses the `binding` keyword as a named usage declaration.
-
-**ShapeItems.sysml** — Uses `binding [1] bind [0..*] base.edges = [0..*] be;`
-which places multiplicity constraints on the binding itself. The grammar's
-`bind_statement` does not accept multiplicity on the `binding` keyword.
-
-**ISQSpaceTime.sysml** — Uses `num#(1) [mRef.mRefs#(1)]` where an index
-expression is followed by a bracket expression. The parser cannot distinguish
-this from multiplicity syntax.
-
-**SysML.sysml** — Contains metadata definitions with complex member chains like
-`derived ref item receiverArgument : Expression[0..1] subsets Metadata::metadataItems;`
-where `subsets` follows a multiplicity constraint. The grammar does not handle
-this chained specialization pattern in metadata definition bodies.
+| Construct | Example | Files Fixed |
+|-----------|---------|-------------|
+| Self-cast in filter expressions (`self_cast_expression`) | `filter @Safety and (as Safety).isMandatory;` | Filtering Example-1/-2 (Training), 11b / 13b-1 / 13b-2 (Validation), SimpleVehicleModel (Examples) |
+| Anonymous enum members with values | `enum = 80 [mm];` | SimpleVehicleModel (Examples) |
+| Named assert constraint with bare expression body | `assert constraint c { x <= y }` | SimpleVehicleModel (Examples) |
+| Named bindings with identification/typing (OMG 2026-02) | `binding ab : AB bind a = b;` | ConnectionTest (Examples) |
+| Multiplicity on bindings | `binding [1] bind [0..*] base.edges = [0..*] be;` | ShapeItems (Library) |
+| Select-body parameters without a direction keyword (`select_parameter`) | `vertices->exists{p2 : Point; ...}` | ShapeItems (Library) |
+| `derived` modifier on item usages | `derived ref item x : Expression[0..1] subsets ...;` | SysML.sysml (Library) |
+| Indexed measurement references in unit brackets (`unit_index`) | `num#(1) [mRef.mRefs#(1)]` | ISQSpaceTime (Library) |
 
 ### Intentionally Unsupported (2 files)
 
