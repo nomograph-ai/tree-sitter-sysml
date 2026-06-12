@@ -397,3 +397,43 @@ connection def USB {
                   (name
                     (identifier)))))))
         (usage_body)))))
+
+================================================================================
+Anonymous enum member with value
+================================================================================
+
+enum def DiameterChoices :> ISQ::LengthValue {
+	enum = 60 [mm];
+	enum = 80 [mm];
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enumeration_definition
+    (identification
+      (name
+        (identifier)))
+    (definition_specialization
+      (qualified_name
+        (name
+          (identifier))
+        (name
+          (identifier))))
+    (enumeration_body
+      (enumeration_member
+        (value_part
+          (measurement_expression
+            (literal
+              (integer_literal))
+            (qualified_name
+              (name
+                (identifier))))))
+      (enumeration_member
+        (value_part
+          (measurement_expression
+            (literal
+              (integer_literal))
+            (qualified_name
+              (name
+                (identifier)))))))))

@@ -690,3 +690,108 @@ attribute x = y as Integer;
             (name
               (identifier))))))
     (usage_body)))
+
+================================================================================
+Self cast in filter expression
+================================================================================
+
+package P {
+	filter @Safety and (as Safety).isMandatory;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (package_definition
+    (identification
+      (name
+        (identifier)))
+    (package_body
+      (filter_statement
+        (binary_expression
+          (metadata_access_expression
+            (qualified_name
+              (name
+                (identifier))))
+          (feature_chain_expression
+            (self_cast_expression
+              (qualified_name
+                (name
+                  (identifier))))
+            (name
+              (identifier))))))))
+
+================================================================================
+Select body parameter without direction
+================================================================================
+
+part def P {
+	assert constraint { vertices->exists{p2 : Point; p1 != p2} }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_definition
+    (identification
+      (name
+        (identifier)))
+    (structural_body
+      (assert_statement
+        (constraint_body
+          (invocation_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (name
+              (identifier))
+            (select_parameter
+              (name
+                (identifier))
+              (typing_part
+                (qualified_name
+                  (name
+                    (identifier)))))
+            (binary_expression
+              (qualified_name
+                (name
+                  (identifier)))
+              (qualified_name
+                (name
+                  (identifier))))))))))
+
+================================================================================
+Index expression with indexed unit bracket
+================================================================================
+
+attribute x : LengthValue = num#(1) [mRef.mRefs#(1)];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_usage
+    (usage_declaration
+      (identification
+        (name
+          (identifier)))
+      (typing_part
+        (qualified_name
+          (name
+            (identifier))))
+      (value_part
+        (measurement_expression
+          (index_expression
+            (qualified_name
+              (name
+                (identifier)))
+            (literal
+              (integer_literal)))
+          (unit_index
+            (feature_chain
+              (name
+                (identifier))
+              (name
+                (identifier)))
+            (literal
+              (integer_literal))))))
+    (usage_body)))
