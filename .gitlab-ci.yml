@@ -17,7 +17,7 @@ include:
   - template: Jobs/SAST.gitlab-ci.yml
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
   - template: Jobs/Secret-Detection.gitlab-ci.yml
-  - component: gitlab.com/nomograph/pipeline/tree-sitter@v4.1.7
+  - component: gitlab.com/nomograph/pipeline/tree-sitter@v4.4.2
     inputs:
       grammar_name: tree-sitter-sysml
       publish_targets: "cargo,npm,pypi"
