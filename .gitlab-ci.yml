@@ -17,7 +17,7 @@ include:
   - template: Jobs/SAST.gitlab-ci.yml
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
   - template: Jobs/Secret-Detection.gitlab-ci.yml
-  - component: gitlab.com/nomograph/pipeline/tree-sitter@v5.6.0
+  - component: gitlab.com/nomograph/pipeline/tree-sitter@v5.7.0
     inputs:
       grammar_name: tree-sitter-sysml
       publish_targets: "cargo,npm,pypi"
@@ -51,7 +51,7 @@ secret_detection: { stage: security }
 # training files and measures error rate via test-corpus.sh.
 parse-coverage:
   stage: coverage
-  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v4.1.4
+  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v4.4.2
   before_script:
     - npm ci
     - npm install -g tree-sitter-cli
@@ -72,7 +72,7 @@ parse-coverage:
 # Wasm playground for browser-side grammar experimentation.
 pages:
   stage: pages
-  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v4.1.4
+  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v4.4.2
   before_script:
     - npm ci
   script:
