@@ -51,7 +51,7 @@ secret_detection: { stage: security }
 # training files and measures error rate via test-corpus.sh.
 parse-coverage:
   stage: coverage
-  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v4.4.2
+  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v5.7.0
   before_script:
     - npm ci
     - npm install -g tree-sitter-cli
@@ -72,7 +72,7 @@ parse-coverage:
 # Wasm playground for browser-side grammar experimentation.
 pages:
   stage: pages
-  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v4.4.2
+  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v5.7.0
   before_script:
     - npm ci
   script:
