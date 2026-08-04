@@ -7,15 +7,20 @@
 #   - parse-coverage: fetches official SysML v2 corpora and measures
 #     parse coverage. Repo-specific scripts; not generalizable.
 #   - pages: builds the wasm playground for browser-side experimentation.
-#   - security templates: SAST + Dependency-Scanning + Secret-Detection
-#     (GitLab Ultimate features beyond the deps-scan gate).
+#   - security templates: SAST + Secret-Detection. Dependency-Scanning was
+#     removed (nomograph is Free tier; every Dependency-Scanning analyzer
+#     job's rules require $GITLAB_FEATURES =~ /\bdependency_scanning\b/,
+#     an Ultimate-only feature flag that's never true here -- confirmed
+#     empirically across multiple push and MR pipelines: no
+#     dependency_scanning/gemnasium-* job has ever appeared). SAST stays:
+#     the semgrep-sast analyzer runs on Free tier and is a real scan with
+#     live findings.
 
 default:
   tags: [storr]
 
 include:
   - template: Jobs/SAST.gitlab-ci.yml
-  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
 
   # Secret detection that BLOCKS, replacing the upstream
   # Jobs/Secret-Detection.gitlab-ci.yml template. That template cannot
@@ -55,9 +60,8 @@ workflow:
       when: never
     - if: '$CI_COMMIT_BRANCH'
 
-# Override security template stages to land in the security stage.
+# Override security template stage to land in the security stage.
 sast: { stage: security }
-dependency_scanning: { stage: security }
 
 # Repo-specific corpus-based parse coverage. Fetches official SysML v2
 # training files and measures error rate via test-corpus.sh.
