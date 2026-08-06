@@ -42,6 +42,12 @@ include:
 
 variables:
   NOMOGRAPH_REGISTRY: registry.gitlab.com/nomograph/pipeline
+  # GitLab's SAST template only runs semgrep-sast on branch pipelines by
+  # default. Combined with the workflow rules above (branch pipelines are
+  # skipped once an MR is open), semgrep-sast would otherwise never run
+  # on a feature branch at all -- only after merge to main. This opts the
+  # AST family of templates (SAST included) into MR pipelines too.
+  AST_ENABLE_MR_PIPELINES: "true"
 
 stages:
   - lint
