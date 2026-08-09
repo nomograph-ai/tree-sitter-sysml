@@ -32,10 +32,10 @@ include:
   # change in what gets flagged), then parses
   # gl-secret-detection-report.json, exits nonzero on a non-empty
   # vulnerabilities array, and fails closed when the report is absent.
-  - component: gitlab.com/nomograph/pipeline/secret-verdict@v5.13.0
+  - component: gitlab.com/nomograph/pipeline/secret-verdict@v5.14.0
     inputs:
       stage: security
-  - component: gitlab.com/nomograph/pipeline/tree-sitter@v5.13.0
+  - component: gitlab.com/nomograph/pipeline/tree-sitter@v5.14.0
     inputs:
       grammar_name: tree-sitter-sysml
       publish_targets: "cargo,npm,pypi"
@@ -73,7 +73,7 @@ sast: { stage: security }
 # training files and measures error rate via test-corpus.sh.
 parse-coverage:
   stage: coverage
-  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v5.13.0
+  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v5.14.0
   before_script:
     - npm ci
     - npm install -g tree-sitter-cli
@@ -94,7 +94,7 @@ parse-coverage:
 # Wasm playground for browser-side grammar experimentation.
 pages:
   stage: pages
-  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v5.13.0
+  image: ${NOMOGRAPH_REGISTRY}/tree-sitter:v5.14.0
   before_script:
     - npm ci
   script:
