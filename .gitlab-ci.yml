@@ -17,7 +17,7 @@
 #     live findings.
 
 default:
-  tags: [storr]
+  tags: [anvil]
 
 include:
   - template: Jobs/SAST.gitlab-ci.yml
